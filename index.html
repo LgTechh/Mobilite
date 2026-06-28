@@ -8,26 +8,25 @@
   <meta name="theme-color" content="#0d0f14"/>
   <title>FlexFlow</title>
   <style>
-/* ════════════════════════════════════════════════════
-   TOKENS — RESET — BASE MOBILE-FIRST
-════════════════════════════════════════════════════ */
+/* =====================================================
+   TOKENS — RESET — ULTRA COMPACT MOBILE-FIRST
+===================================================== */
 :root {
-  --bg:       #0d0f14;
-  --surface:  #151820;
-  --card:     #1c2030;
-  --border:   #2a2f42;
-  --accent:   #e8ff47;
-  --a2:       #47b8ff;
-  --a3:       #b47bff;
-  --danger:   #ff5c5c;
-  --warn:     #ffaa2c;
-  --txt:      #e8eaf2;
-  --dim:      #7a82a0;
-  --r:        14px;
-  --rs:       8px;
-  --font:     'Inter', system-ui, sans-serif;
-  --ease:     0.22s cubic-bezier(.4,0,.2,1);
-  /* safe-area pour iPhone notch */
+  --bg:        #0d0f14;
+  --surface:   #151820;
+  --card:      #1c2030;
+  --border:    #2a2f42;
+  --accent:    #e8ff47;
+  --a2:        #47b8ff;
+  --a3:        #b47bff;
+  --danger:    #ff5c5c;
+  --warn:      #ffaa2c;
+  --txt:       #e8eaf2;
+  --dim:       #7a82a0;
+  --r:         12px;
+  --rs:        6px;
+  --font:      'Inter', system-ui, sans-serif;
+  --ease:      0.22s cubic-bezier(.4,0,.2,1);
   --sab: env(safe-area-inset-bottom, 0px);
   --sat: env(safe-area-inset-top,    0px);
 }
@@ -36,7 +35,7 @@
 
 html, body {
   height: 100%;
-  overflow: hidden;          /* pas de scroll global */
+  overflow: hidden;
   background: var(--bg);
   color: var(--txt);
   font-family: var(--font);
@@ -44,7 +43,6 @@ html, body {
   -webkit-tap-highlight-color: transparent;
 }
 
-/* ── Écrans : pile fixe, un seul visible à la fois ── */
 .screen {
   position: fixed; inset: 0;
   display: flex; flex-direction: column;
@@ -53,496 +51,181 @@ html, body {
   transition: opacity .25s var(--ease);
   background: var(--bg);
 }
-.screen.active {
-  opacity: 1; pointer-events: auto;
-  z-index: 1;
-}
-/* Zone défilable interne (sélection uniquement) */
+.screen.active { opacity: 1; pointer-events: auto; z-index: 1; }
+
 .scroll-body {
   flex: 1; overflow-y: auto;
-  padding: 0 16px 16px;
+  padding: 0 14px 14px;
   -webkit-overflow-scrolling: touch;
 }
 .scroll-body::-webkit-scrollbar { display: none; }
 
-/* ════════════════════════════════════════════════════
+/* =====================================================
    SCREEN HUB
-════════════════════════════════════════════════════ */
+===================================================== */
 #screen-hub {
   justify-content: space-between;
-  padding: calc(var(--sat) + 48px) 24px calc(var(--sab) + 40px);
+  padding: calc(var(--sat) + 32px) 20px calc(var(--sab) + 32px);
 }
-.hub-brand {
-  text-align: center;
-}
-.hub-logo {
-  font-size: 11px; font-weight: 700;
-  letter-spacing: .28em; text-transform: uppercase;
-  color: var(--dim); margin-bottom: 10px;
-}
-.hub-title {
-  font-size: 52px; font-weight: 900;
-  letter-spacing: -.04em; line-height: 1;
-  color: var(--txt);
-}
+.hub-brand { text-align: center; }
+.hub-logo { font-size: 10px; font-weight: 700; letter-spacing: .25em; text-transform: uppercase; color: var(--dim); margin-bottom: 6px; }
+.hub-title { font-size: 44px; font-weight: 900; letter-spacing: -.04em; line-height: 1; }
 .hub-title span { color: var(--accent); }
-.hub-tagline {
-  margin-top: 10px; font-size: 15px; color: var(--dim);
-}
+.hub-tagline { margin-top: 6px; font-size: 14px; color: var(--dim); }
+.hub-modules { display: flex; flex-direction: column; gap: 12px; }
 
-.hub-modules {
-  display: flex; flex-direction: column; gap: 14px;
-}
-
-/* Tuile principale */
 .hub-tile-main {
-  width: 100%;
-  background: var(--accent);
-  color: #0d0f14;
-  border: none;
-  border-radius: var(--r);
-  padding: 26px 22px;
-  cursor: pointer;
-  text-align: left;
-  transition: var(--ease);
-  font-family: var(--font);
-  position: relative; overflow: hidden;
+  width: 100%; background: var(--accent); color: #0d0f14; border: none; border-radius: var(--r); padding: 22px 18px; cursor: pointer; text-align: left; transition: var(--ease); font-family: var(--font); position: relative; overflow: hidden;
 }
-.hub-tile-main::after {
-  content: '';
-  position: absolute; inset: 0;
-  background: radial-gradient(circle at 80% 50%, rgba(255,255,255,.18), transparent 70%);
-}
+.hub-tile-main::after { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 80% 50%, rgba(255,255,255,.18), transparent 70%); }
 .hub-tile-main:active { transform: scale(.98); }
-.hub-tm-label {
-  font-size: 11px; font-weight: 700;
-  letter-spacing: .18em; text-transform: uppercase;
-  opacity: .7; margin-bottom: 6px;
-}
-.hub-tm-title {
-  font-size: 22px; font-weight: 800;
-  letter-spacing: -.02em; line-height: 1.15;
-}
-.hub-tm-sub {
-  font-size: 13px; margin-top: 6px; opacity: .65;
-}
+.hub-tm-label { font-size: 10px; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; opacity: .7; margin-bottom: 4px; }
+.hub-tm-title { font-size: 20px; font-weight: 800; letter-spacing: -.02em; }
+.hub-tm-sub { font-size: 12px; margin-top: 4px; opacity: .65; }
 
-/* Tuiles verrouillées */
-.hub-tiles-locked {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
-}
-.hub-tile-locked {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--r);
-  padding: 18px 14px;
-  opacity: .5;
-}
-.hub-tl-icon { font-size: 22px; margin-bottom: 8px; }
-.hub-tl-title { font-size: 14px; font-weight: 700; color: var(--txt); }
-.hub-tl-badge {
-  display: inline-block;
-  margin-top: 6px;
-  font-size: 10px; font-weight: 700;
-  letter-spacing: .12em; text-transform: uppercase;
-  color: var(--dim);
-  background: var(--card);
-  padding: 3px 8px; border-radius: 20px;
-}
+.hub-tiles-locked { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.hub-tile-locked { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); padding: 14px 12px; opacity: .4; }
+.hub-tl-icon { font-size: 18px; margin-bottom: 4px; }
+.hub-tl-title { font-size: 13px; font-weight: 700; }
+.hub-tl-badge { display: inline-block; margin-top: 4px; font-size: 9px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--dim); background: var(--card); padding: 2px 6px; border-radius: 20px; }
+.hub-footer { text-align: center; font-size: 10px; color: var(--dim); }
 
-.hub-footer {
-  text-align: center;
-  font-size: 11px; color: var(--dim);
-  letter-spacing: .1em;
-}
-
-/* ════════════════════════════════════════════════════
+/* =====================================================
    SCREEN SÉLECTION
-════════════════════════════════════════════════════ */
-#screen-selection { overflow: hidden; }
-
-.sel-topbar {
-  display: flex; align-items: center; gap: 12px;
-  padding: calc(var(--sat) + 14px) 16px 12px;
-  border-bottom: 1px solid var(--border);
-  flex-shrink: 0;
-  background: var(--bg);
-}
-.btn-back {
-  background: var(--card); border: 1px solid var(--border);
-  color: var(--txt); border-radius: 10px;
-  padding: 8px 14px; font-size: 14px; font-weight: 600;
-  cursor: pointer; font-family: var(--font);
-  transition: var(--ease); flex-shrink: 0;
-}
-.btn-back:active { opacity: .7; }
-.sel-topbar-title {
-  font-size: 17px; font-weight: 800; letter-spacing: -.02em;
-}
-
-.sel-section { margin-bottom: 20px; }
-
-.cat-header { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
-.cat-badge {
-  display: inline-flex; align-items: center; gap: 5px;
-  font-size: 10px; font-weight: 700; letter-spacing: .16em;
-  text-transform: uppercase; padding: 4px 10px; border-radius: 20px;
-}
-.cat-badge.chains {
-  background: rgba(180,123,255,.15); color: var(--a3);
-  border: 1px solid rgba(180,123,255,.3);
-}
-.cat-badge.muscles {
-  background: rgba(71,184,255,.12); color: var(--a2);
-  border: 1px solid rgba(71,184,255,.25);
-}
-.cat-desc { font-size: 12px; color: var(--dim); line-height: 1.5; margin-bottom: 10px; }
-
-.zones-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-
-.zone-label {
-  display: flex; align-items: center; gap: 8px;
-  background: var(--card); border: 1px solid var(--border);
-  border-radius: var(--rs); padding: 9px 11px;
-  cursor: pointer; transition: var(--ease);
-  user-select: none; font-size: 13px; font-weight: 500;
-}
-.zone-label:active { opacity: .8; }
-.zone-label.active-chain { border-color: var(--a3); background: rgba(180,123,255,.08); }
-.zone-label.active-muscle { border-color: var(--a2); background: rgba(71,184,255,.07); }
-
-.zone-label input[type="checkbox"] {
-  appearance: none; -webkit-appearance: none;
-  width: 16px; height: 16px;
-  border: 2px solid var(--border); border-radius: 4px;
-  flex-shrink: 0; position: relative; transition: var(--ease);
-}
-.zone-label.active-chain input  { background: var(--a3); border-color: var(--a3); }
+===================================================== */
+.sel-topbar { display: flex; align-items: center; gap: 12px; padding: calc(var(--sat) + 10px) 14px 10px; border-bottom: 1px solid var(--border); flex-shrink: 0; background: var(--bg); }
+.btn-back { background: var(--card); border: 1px solid var(--border); color: var(--txt); border-radius: 8px; padding: 6px 12px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: var(--font); }
+.sel-topbar-title { font-size: 16px; font-weight: 800; }
+.sel-section { margin-top: 14px; }
+.cat-badge { display: inline-flex; align-items: center; gap: 4px; font-size: 9px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; padding: 3px 8px; border-radius: 20px; }
+.cat-badge.chains { background: rgba(180,123,255,.12); color: var(--a3); border: 1px solid rgba(180,123,255,.25); }
+.cat-badge.muscles { background: rgba(71,184,255,.1); color: var(--a2); border: 1px solid rgba(71,184,255,.2); }
+.cat-desc { font-size: 11px; color: var(--dim); margin: 6px 0 8px; line-height: 1.4; }
+.zones-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.zone-label { display: flex; align-items: center; gap: 6px; background: var(--card); border: 1px solid var(--border); border-radius: var(--rs); padding: 8px 10px; cursor: pointer; font-size: 12px; font-weight: 500; }
+.zone-label.active-chain { border-color: var(--a3); background: rgba(180,123,255,.06); }
+.zone-label.active-muscle { border-color: var(--a2); background: rgba(71,184,255,.05); }
+.zone-label input { appearance: none; -webkit-appearance: none; width: 14px; height: 14px; border: 2px solid var(--border); border-radius: 3px; position: relative; }
+.zone-label.active-chain input { background: var(--a3); border-color: var(--a3); }
 .zone-label.active-muscle input { background: var(--a2); border-color: var(--a2); }
-.zone-label input:checked::after {
-  content: ''; position: absolute;
-  top: 1px; left: 3px; width: 5px; height: 8px;
-  border: 2px solid #0d0f14; border-top: none; border-left: none;
-  transform: rotate(45deg);
-}
-.zone-emoji { font-size: 14px; flex-shrink: 0; }
-
-/* Durée */
-.duration-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; }
-.duration-btn {
-  background: var(--card); border: 2px solid var(--border);
-  border-radius: var(--rs); color: var(--txt);
-  font-family: var(--font); padding: 14px 8px;
-  cursor: pointer; transition: var(--ease);
-  display: flex; flex-direction: column; align-items: center; gap: 2px;
-}
-.duration-btn .dur-min { font-size: 20px; font-weight: 800; letter-spacing: -.02em; }
-.duration-btn .dur-label {
-  font-size: 10px; font-weight: 600; letter-spacing: .1em;
-  text-transform: uppercase; color: var(--dim);
-}
-.duration-btn.selected { border-color: var(--accent); background: rgba(232,255,71,.1); color: var(--accent); }
-.duration-btn.selected .dur-label { color: rgba(232,255,71,.65); }
-
-.sel-count { text-align: center; font-size: 12px; color: var(--dim); min-height: 16px; }
+.zone-label input:checked::after { content: ''; position: absolute; top: 1px; left: 3px; width: 4px; height: 6px; border: 2px solid #0d0f14; border-top: none; border-left: none; transform: rotate(45deg); }
+.zone-emoji { font-size: 13px; }
+.duration-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 6px; }
+.duration-btn { background: var(--card); border: 2px solid var(--border); border-radius: var(--rs); color: var(--txt); padding: 10px 4px; cursor: pointer; display: flex; flex-direction: column; align-items: center; }
+.duration-btn .dur-min { font-size: 18px; font-weight: 800; }
+.duration-btn .dur-label { font-size: 9px; font-weight: 600; color: var(--dim); }
+.duration-btn.selected { border-color: var(--accent); background: rgba(232,255,71,.08); color: var(--accent); }
+.sel-count { text-align: center; font-size: 11px; color: var(--dim); margin-top: 10px; }
 .sel-count strong { color: var(--accent); }
-.sel-alert { font-size: 13px; color: var(--danger); text-align: center; min-height: 16px; }
-
-/* Bouton fixe en bas de l'écran sélection */
-.sel-footer {
-  flex-shrink: 0;
-  padding: 12px 16px calc(var(--sab) + 12px);
-  background: var(--bg);
-  border-top: 1px solid var(--border);
-}
-.btn-start {
-  width: 100%; padding: 17px;
-  border-radius: var(--r);
-  background: var(--accent); color: #0d0f14;
-  font-family: var(--font); font-size: 16px;
-  font-weight: 800; letter-spacing: .04em;
-  text-transform: uppercase; border: none;
-  cursor: pointer; transition: var(--ease);
-  opacity: .3; pointer-events: none;
-}
+.sel-alert { font-size: 12px; color: var(--danger); text-align: center; margin-top: 4px; }
+.sel-footer { flex-shrink: 0; padding: 10px 14px calc(var(--sab) + 10px); border-top: 1px solid var(--border); background: var(--bg); }
+.btn-start { width: 100%; padding: 14px; border-radius: var(--r); background: var(--accent); color: #0d0f14; font-size: 15px; font-weight: 800; border: none; cursor: pointer; opacity: .3; pointer-events: none; }
 .btn-start.ready { opacity: 1; pointer-events: auto; }
-.btn-start:active { opacity: .85; }
 
-/* ════════════════════════════════════════════════════
-   SCREEN ROUTINE — LAYOUT MOBILE-FIRST
-   Structure : topbar → info → media(flex-grow) → bottom-sheet
-════════════════════════════════════════════════════ */
-#screen-routine { background: var(--bg); }
-
-/* ── Barre de progression haut ── */
+/* =====================================================
+   SCREEN ROUTINE — CONCENTRÉ POUR ÉVITER LE SCROLL
+===================================================== */
+#screen-routine { background: var(--bg); height: 100%; justify-content: space-between; }
 .progress-bar { height: 3px; background: var(--border); flex-shrink: 0; }
-.progress-fill {
-  height: 100%; background: var(--accent);
-  width: 0%; transition: width 1s linear;
-}
+.progress-fill { height: 100%; background: var(--accent); width: 0%; transition: width .5s linear; }
 
-/* ── Topbar routine ── */
-.rout-topbar {
-  display: flex; justify-content: space-between; align-items: center;
-  padding: 10px 16px 6px;
-  flex-shrink: 0;
-}
-.rout-step {
-  font-size: 12px; font-weight: 600;
-  letter-spacing: .1em; text-transform: uppercase; color: var(--dim);
-}
-.btn-quit {
-  background: none; border: 1px solid var(--border);
-  color: var(--dim); border-radius: 20px;
-  padding: 4px 12px; font-size: 12px; font-weight: 600;
-  cursor: pointer; font-family: var(--font); transition: var(--ease);
-}
-.btn-quit:active { border-color: var(--danger); color: var(--danger); }
+.rout-topbar { display: flex; justify-content: space-between; align-items: center; padding: 6px 14px 4px; flex-shrink: 0; }
+.rout-step { font-size: 11px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; color: var(--dim); }
+.btn-quit { background: none; border: 1px solid var(--border); color: var(--dim); border-radius: 20px; padding: 3px 10px; font-size: 11px; font-weight: 600; cursor: pointer; }
 
-/* ── Bandeau setup ── */
-.setup-banner {
-  margin: 0 16px 6px;
-  background: rgba(232,255,71,.07);
-  border: 1px solid rgba(232,255,71,.2);
-  border-radius: var(--rs);
-  padding: 8px 12px;
-  display: flex; align-items: center; gap: 8px;
-  font-size: 12px; font-weight: 600; color: rgba(232,255,71,.8);
-  flex-shrink: 0;
-}
+/* Bandeau compact */
+.setup-banner { margin: 0 14px 4px; background: rgba(71,184,255,.08); border: 1px solid rgba(71,184,255,.2); border-radius: var(--rs); padding: 6px 10px; display: flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 600; color: rgba(71,184,255,.9); flex-shrink: 0; }
+.setup-banner.transition-mode { background: rgba(255,170,44,.08); border-color: rgba(255,170,44,.2); color: var(--warn); }
 .setup-banner.hidden { display: none; }
 
-/* ── Métadonnées exercice ── */
-.rout-meta { padding: 0 16px 4px; flex-shrink: 0; }
-.exo-zone-tag {
-  display: inline-block;
-  background: rgba(71,184,255,.12); color: var(--a2);
-  border-radius: 20px; font-size: 10px; font-weight: 700;
-  letter-spacing: .14em; text-transform: uppercase;
-  padding: 3px 10px; margin-bottom: 5px;
-}
-.exo-name {
-  font-size: 20px; font-weight: 800;
-  letter-spacing: -.02em; line-height: 1.15; color: var(--txt);
-  margin-bottom: 2px;
-}
-/* Étiquette côté unilatéral */
-.side-label {
-  display: inline-flex; align-items: center; gap: 5px;
-  font-size: 12px; font-weight: 700;
-  letter-spacing: .1em; text-transform: uppercase;
-  padding: 3px 10px; border-radius: 20px;
-  margin-bottom: 3px;
-}
-.side-label.left  { background: rgba(255,170,44,.12); color: var(--warn); border: 1px solid rgba(255,170,44,.3); }
-.side-label.right { background: rgba(71,184,255,.12);  color: var(--a2);   border: 1px solid rgba(71,184,255,.3); }
+.rout-meta { padding: 0 14px 2px; flex-shrink: 0; }
+.exo-zone-tag { display: inline-block; background: rgba(255,255,255,.06); color: var(--dim); border-radius: 20px; font-size: 9px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; padding: 2px 8px; margin-bottom: 2px; }
+.exo-name { font-size: 18px; font-weight: 800; letter-spacing: -.01em; color: var(--txt); }
+
+/* Badges côtés unilatéraux */
+.side-label { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 700; text-transform: uppercase; padding: 2px 8px; border-radius: 20px; margin-top: 2px; }
+.side-label.left { background: rgba(255,170,44,.12); color: var(--warn); border: 1px solid rgba(255,170,44,.25); }
+.side-label.right { background: rgba(71,184,255,.12); color: var(--a2); border: 1px solid rgba(71,184,255,.25); }
 .side-label.hidden { display: none; }
+.exo-subtitle { font-size: 10px; color: var(--dim); margin-top: 1px; }
 
-.exo-subtitle {
-  font-size: 11px; color: var(--dim); font-weight: 500;
-  margin-bottom: 2px;
-}
-
-/* ── Chrono + Next ── */
-.chrono-row {
-  display: flex; align-items: center; gap: 12px;
-  padding: 6px 16px 8px; flex-shrink: 0;
-}
-.chrono-ring {
-  position: relative; width: 76px; height: 76px; flex-shrink: 0;
-}
-.chrono-ring svg { transform: rotate(-90deg); width: 76px; height: 76px; }
-.c-track { fill: none; stroke: var(--border); stroke-width: 5; }
-.c-arc {
-  fill: none; stroke: var(--accent); stroke-width: 5;
-  stroke-linecap: round;
-  stroke-dasharray: 207.3; /* 2π×33 */
-  stroke-dashoffset: 0;
-  transition: stroke-dashoffset 1s linear, stroke .3s;
-}
-.c-text {
-  position: absolute; top: 50%; left: 50%;
-  transform: translate(-50%,-50%);
-  font-size: 17px; font-weight: 800; letter-spacing: -.03em;
-}
+/* Ligne Chrono + Next compactée */
+.chrono-row { display: flex; align-items: center; gap: 12px; padding: 4px 14px 6px; flex-shrink: 0; }
+.chrono-ring { position: relative; width: 64px; height: 64px; flex-shrink: 0; }
+.chrono-ring svg { transform: rotate(-90deg); width: 64px; height: 64px; }
+.c-track { fill: none; stroke: var(--border); stroke-width: 4; }
+.c-arc { fill: none; stroke: var(--accent); stroke-width: 4; stroke-linecap: round; stroke-dasharray: 175.9; stroke-dashoffset: 0; transition: stroke-dashoffset 0.2s linear; }
+.c-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); font-size: 14px; font-weight: 800; }
 .chrono-ring.setup .c-arc { stroke: var(--border); }
-.chrono-ring.setup .c-text { color: var(--dim); font-size: 13px; }
+.chrono-ring.setup .c-text { color: var(--dim); }
+.chrono-ring.transition-active .c-arc { stroke: var(--warn); }
+.chrono-ring.transition-active .c-text { color: var(--warn); }
 
 .next-block { flex: 1; min-width: 0; }
-.next-lbl { font-size: 10px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--dim); margin-bottom: 3px; }
-.next-name { font-size: 13px; font-weight: 700; color: var(--txt); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.next-zone { font-size: 11px; color: var(--dim); margin-top: 2px; }
+.next-lbl { font-size: 9px; font-weight: 700; color: var(--dim); text-transform: uppercase; }
+.next-name { font-size: 12px; font-weight: 700; color: var(--txt); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-/* ── Zone vidéo : flex-grow pour remplir l'espace ── */
-.media-zone {
-  flex: 1; /* occupe tout l'espace disponible */
-  margin: 0 16px;
-  position: relative;
-  border-radius: var(--r); overflow: hidden;
-  background: var(--card);
-  border: 1px solid var(--border);
-  min-height: 100px;
-}
-.media-zone video {
-  position: absolute; inset: 0;
-  width: 100%; height: 100%;
-  object-fit: cover;
-}
-.media-placeholder {
-  position: absolute; inset: 0;
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
-  gap: 8px; color: var(--dim);
-}
-.mp-icon { font-size: 44px; opacity: .35; }
-.mp-text { font-size: 11px; text-align: center; max-width: 200px; line-height: 1.5; opacity: .4; }
+/* Zone vidéo adaptative (prend la place restante) */
+.media-zone { flex: 1; margin: 0 14px; position: relative; border-radius: var(--r); overflow: hidden; background: var(--card); border: 1px solid var(--border); min-height: 120px; }
+.media-zone video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.media-placeholder { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--dim); }
+.mp-icon { font-size: 36px; opacity: .25; }
+.mp-text { font-size: 10px; text-align: center; max-width: 180px; opacity: .4; }
 
-/* Overlay pause vidéo */
-.vid-overlay {
-  position: absolute; inset: 0;
-  display: flex; align-items: center; justify-content: center;
-  background: rgba(0,0,0,.4);
-  opacity: 0; pointer-events: none; transition: opacity .2s;
-  cursor: pointer;
-}
-.vid-overlay.visible { opacity: 1; pointer-events: auto; }
-.vid-overlay-icon { font-size: 42px; filter: drop-shadow(0 2px 8px rgba(0,0,0,.5)); }
+.vid-overlay { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,.5); opacity: 1; transition: opacity .2s; cursor: pointer; z-index: 3; }
+.vid-overlay.playing { background: rgba(0,0,0,0); }
+.vid-overlay.playing .vid-overlay-icon { opacity: 0; }
+.vid-overlay-icon { font-size: 36px; color: #fff; background: rgba(21,24,32,0.8); width: 54px; height: 54px; display: flex; align-items: center; justify-content: center; border-radius: 50%; border: 1px solid var(--border); transition: opacity 0.2s; }
 
-/* ── Bottom sheet : infos + contrôles ── */
-.bottom-sheet {
-  flex-shrink: 0;
-  background: var(--surface);
-  border-top: 1px solid var(--border);
-  border-radius: 20px 20px 0 0;
-  margin-top: 10px;
-  padding: 14px 16px calc(var(--sab) + 14px);
-}
-
-/* Carte GoWod style : Stimulus + Instructions */
-.info-card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: var(--rs);
-  overflow: hidden;
-  margin-bottom: 12px;
-}
-.info-row {
-  padding: 10px 13px;
-}
+/* Bottom sheet & Cartes d'infos compactes */
+.bottom-sheet { flex-shrink: 0; background: var(--surface); border-top: 1px solid var(--border); border-radius: 16px 16px 0 0; padding: 10px 14px calc(var(--sab) + 10px); margin-top: 6px; }
+.info-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--rs); overflow: hidden; margin-bottom: 10px; }
+.info-row { padding: 6px 10px; }
 .info-row + .info-row { border-top: 1px solid var(--border); }
-.info-row-label {
-  font-size: 9px; font-weight: 700;
-  letter-spacing: .18em; text-transform: uppercase;
-  margin-bottom: 5px;
-}
+.info-row-label { font-size: 8px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; margin-bottom: 2px; }
 .info-row-label.stim { color: var(--warn); }
 .info-row-label.inst { color: var(--a2); }
-.info-row-text {
-  font-size: 12.5px; line-height: 1.6; color: var(--dim);
-}
-/* Liste puce inline */
-.instr-list {
-  list-style: none; padding: 0; margin: 0;
-  display: flex; flex-direction: column; gap: 4px;
-}
-.instr-list li {
-  font-size: 12.5px; line-height: 1.5; color: var(--dim);
-  padding-left: 16px; position: relative;
-}
-.instr-list li::before {
-  content: '›'; position: absolute; left: 0;
-  color: var(--a2); font-weight: 700;
-}
+.info-row-text { font-size: 11.5px; line-height: 1.4; color: var(--dim); }
+.instr-list { list-style: none; display: flex; flex-direction: column; gap: 2px; }
+.instr-list li { font-size: 11.5px; line-height: 1.4; color: var(--dim); padding-left: 12px; position: relative; }
+.instr-list li::before { content: '›'; position: absolute; left: 0; color: var(--a2); font-weight: 700; }
 
-/* ── Contrôles ── */
-.controls-row {
-  display: flex; gap: 10px;
-}
-.btn-ctrl {
-  flex: 1; padding: 14px 10px;
-  border-radius: var(--r); border: none;
-  font-family: var(--font); font-size: 14px; font-weight: 700;
-  cursor: pointer; transition: var(--ease);
-  display: flex; align-items: center; justify-content: center; gap: 6px;
-}
-.btn-pause-ctrl {
-  background: var(--card); border: 1px solid var(--border); color: var(--txt);
-}
-.btn-pause-ctrl:active { opacity: .75; }
-.btn-next-ctrl {
-  flex: 1.4; background: var(--accent); color: #0d0f14;
-}
-.btn-next-ctrl:active { opacity: .85; }
-/* Bouton Prêt clignotant */
-.btn-ready-ctrl {
-  flex: 1.8; background: var(--accent); color: #0d0f14;
-  font-size: 15px;
-  animation: pulse-ready 1.5s ease-in-out infinite;
-}
-@keyframes pulse-ready {
-  0%   { box-shadow: 0 0 0 0 rgba(232,255,71,.55); }
-  60%  { box-shadow: 0 0 0 12px rgba(232,255,71,.0); }
-  100% { box-shadow: 0 0 0 0 rgba(232,255,71,.0); }
-}
-.btn-ready-ctrl:active { opacity: .85; }
-.btn-skip-ctrl {
-  flex: .65; background: var(--card); border: 1px solid var(--border); color: var(--dim);
-}
+.controls-row { display: flex; gap: 8px; }
+.btn-ctrl { flex: 1; padding: 12px 8px; border-radius: var(--r); border: none; font-family: var(--font); font-size: 13px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 4px; }
+.btn-pause-ctrl { background: var(--card); border: 1px solid var(--border); color: var(--txt); }
+.btn-next-ctrl { flex: 1.2; background: var(--accent); color: #0d0f14; }
+.btn-ready-ctrl { flex: 1.8; background: var(--accent); color: #0d0f14; font-size: 14px; animation: pulse-ready 1.5s infinite; }
+@keyframes pulse-ready { 0% { box-shadow: 0 0 0 0 rgba(232,255,71,.5); } 60% { box-shadow: 0 0 0 10px rgba(232,255,71,0); } 100% { box-shadow: 0 0 0 0 rgba(232,255,71,0); } }
+.btn-skip-ctrl { flex: .5; background: var(--card); border: 1px solid var(--border); color: var(--dim); }
 
-/* ════════════════════════════════════════════════════
+/* =====================================================
    SCREEN DONE
-════════════════════════════════════════════════════ */
-#screen-done {
-  justify-content: center; align-items: center;
-  text-align: center;
-  padding: 40px 24px calc(var(--sab) + 40px);
-  gap: 18px;
-}
-.done-icon { font-size: 64px; }
-.done-title { font-size: 30px; font-weight: 800; letter-spacing: -.03em; }
-.done-sub { font-size: 15px; color: var(--dim); line-height: 1.6; max-width: 300px; }
-.done-stats {
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: var(--r); padding: 20px 28px;
-  width: 100%; display: flex; gap: 24px; justify-content: center;
-}
-.done-stat { display: flex; flex-direction: column; align-items: center; gap: 4px; }
-.done-num { font-size: 28px; font-weight: 800; color: var(--accent); }
-.done-lbl { font-size: 11px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--dim); }
-.btn-done-back {
-  padding: 16px 36px; background: var(--accent); color: #0d0f14;
-  border: none; border-radius: var(--r); font-family: var(--font);
-  font-size: 15px; font-weight: 800; cursor: pointer;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { transition: none !important; animation: none !important; }
-}
+===================================================== */
+#screen-done { justify-content: center; align-items: center; text-align: center; padding: 32px 20px calc(var(--sab) + 32px); gap: 14px; }
+.done-icon { font-size: 48px; }
+.done-title { font-size: 26px; font-weight: 800; }
+.done-sub { font-size: 14px; color: var(--dim); max-width: 260px; }
+.done-stats { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); padding: 16px 20px; width: 100%; display: flex; gap: 20px; justify-content: center; }
+.done-stat { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.done-num { font-size: 24px; font-weight: 800; color: var(--accent); }
+.done-lbl { font-size: 10px; font-weight: 600; text-transform: uppercase; color: var(--dim); }
+.btn-done-back { padding: 14px 32px; background: var(--accent); color: #0d0f14; border: none; border-radius: var(--r); font-size: 14px; font-weight: 800; cursor: pointer; }
   </style>
 </head>
 <body>
 
-<!-- ════════════════════════════════════════════════
-     ÉCRAN 0 — HUB
-════════════════════════════════════════════════ -->
 <div id="screen-hub" class="screen active">
-
   <div class="hub-brand">
     <p class="hub-logo">FlexFlow</p>
     <h1 class="hub-title">Flex<span>Flow</span></h1>
     <p class="hub-tagline">Mobilité • Performance • Récupération</p>
   </div>
-
   <div class="hub-modules">
-
-    <!-- Tuile principale -->
     <button class="hub-tile-main" onclick="showScreen('screen-selection')">
       <p class="hub-tm-label">Programme du jour</p>
       <p class="hub-tm-title">⚡ GoWod Quotidien</p>
       <p class="hub-tm-sub">Sélectionnez vos zones, on génère votre routine</p>
     </button>
-
-    <!-- Tuiles verrouillées -->
     <div class="hub-tiles-locked">
       <div class="hub-tile-locked">
         <div class="hub-tl-icon">🧪</div>
@@ -555,154 +238,96 @@ html, body {
         <span class="hub-tl-badge">🔒 Bientôt</span>
       </div>
     </div>
-
   </div>
-
-  <p class="hub-footer">v3.0 — Usage personnel</p>
+  <p class="hub-footer">v3.1 — Usage personnel mobile</p>
 </div>
 
-<!-- ════════════════════════════════════════════════
-     ÉCRAN 1 — SÉLECTION
-════════════════════════════════════════════════ -->
 <div id="screen-selection" class="screen">
-
-  <!-- Topbar fixe -->
   <div class="sel-topbar">
     <button class="btn-back" onclick="showScreen('screen-hub')">← Hub</button>
     <span class="sel-topbar-title">GoWod Quotidien</span>
   </div>
-
-  <!-- Corps défilable -->
   <div class="scroll-body">
-
-    <div style="height:16px;"></div>
-
-    <!-- Grandes Chaînes -->
+    <div style="height:8px;"></div>
     <div class="sel-section">
-      <div class="cat-header">
-        <span class="cat-badge chains">⛓️ Grandes Chaînes &amp; Groupes</span>
-      </div>
-      <p class="cat-desc">Travaillez plusieurs groupes en une sélection. Idéal pour des séances globales.</p>
+      <div class="cat-header"><span class="cat-badge chains">⛓️ Grandes Chaînes &amp; Groupes</span></div>
+      <p class="cat-desc">Plusieurs groupes ciblés. Idéal pour des séances globales rapides.</p>
       <div class="zones-grid" id="grid-chains"></div>
     </div>
-
-    <!-- Muscles Isolés -->
     <div class="sel-section">
-      <div class="cat-header">
-        <span class="cat-badge muscles">🎯 Muscles Isolés</span>
-      </div>
-      <p class="cat-desc">Ciblez une zone précise pour une récupération localisée.</p>
+      <div class="cat-header"><span class="cat-badge muscles">🎯 Muscles Isolés</span></div>
+      <p class="cat-desc">Ciblez une zone très précise pour soulager une raideur.</p>
       <div class="zones-grid" id="grid-muscles"></div>
     </div>
-
-    <!-- Durée -->
     <div class="sel-section">
-      <div class="cat-header">
-        <span class="cat-badge" style="background:rgba(232,255,71,.1);color:var(--accent);border:1px solid rgba(232,255,71,.25);">⏱ Durée</span>
-      </div>
+      <div class="cat-header"><span class="cat-badge" style="background:rgba(232,255,71,.1);color:var(--accent);border:1px solid rgba(232,255,71,.25);">⏱ Durée</span></div>
       <div class="duration-grid">
-        <button class="duration-btn" data-minutes="8">
-          <span class="dur-min">8</span><span class="dur-label">min</span>
-        </button>
-        <button class="duration-btn" data-minutes="15">
-          <span class="dur-min">15</span><span class="dur-label">min</span>
-        </button>
-        <button class="duration-btn" data-minutes="22">
-          <span class="dur-min">22</span><span class="dur-label">min</span>
-        </button>
+        <button class="duration-btn" data-minutes="8"><span class="dur-min">8</span><span class="dur-label">min</span></button>
+        <button class="duration-btn" data-minutes="15"><span class="dur-min">15</span><span class="dur-label">min</span></button>
+        <button class="duration-btn" data-minutes="22"><span class="dur-min">22</span><span class="dur-label">min</span></button>
       </div>
     </div>
-
     <p class="sel-count" id="sel-count"></p>
     <p class="sel-alert" id="sel-alert"></p>
-    <div style="height:8px;"></div>
-
-  </div><!-- /scroll-body -->
-
-  <!-- Bouton fixe en bas -->
+  </div>
   <div class="sel-footer">
     <button class="btn-start" id="btn-start" onclick="startRoutine()">Lancer la routine →</button>
   </div>
-
 </div>
 
-<!-- ════════════════════════════════════════════════
-     ÉCRAN 2 — ROUTINE
-════════════════════════════════════════════════ -->
 <div id="screen-routine" class="screen">
-
-  <!-- Progression globale -->
   <div class="progress-bar"><div class="progress-fill" id="prog-fill"></div></div>
-
-  <!-- Topbar -->
   <div class="rout-topbar">
     <span class="rout-step" id="step-info">Exo 1 / 6</span>
     <button class="btn-quit" onclick="quitRoutine()">✕ Quitter</button>
   </div>
-
-  <!-- Métadonnées -->
   <div class="rout-meta">
     <span class="exo-zone-tag" id="exo-zone">Hanches</span><br/>
-    <span class="side-label hidden" id="side-label">CÔTÉ GAUCHE</span>
+    <span class="side-label hidden" id="side-label">CÔTÉ GAUCHE </span>
     <h2 class="exo-name" id="exo-name">Pigeon au sol</h2>
-    <p class="exo-subtitle" id="exo-subtitle">Exo 1/6 • 2:00 par côté</p>
+    <p class="exo-subtitle" id="exo-subtitle">Exo 1/6 • 2:00 au total</p>
   </div>
-
-  <!-- Chrono + Suivant -->
   <div class="chrono-row">
     <div class="chrono-ring" id="chrono-ring">
-      <svg viewBox="0 0 76 76">
-        <circle class="c-track" cx="38" cy="38" r="33"/>
-        <circle class="c-arc"   cx="38" cy="38" r="33" id="chrono-arc"/>
+      <svg viewBox="0 0 64 64">
+        <circle class="c-track" cx="32" cy="32" r="28"/>
+        <circle class="c-arc" cx="32" cy="32" r="28" id="chrono-arc"/>
       </svg>
       <span class="c-text" id="chrono-text">—</span>
     </div>
     <div class="next-block">
       <p class="next-lbl">Suivant</p>
       <p class="next-name" id="next-name">—</p>
-      <p class="next-zone" id="next-zone"></p>
     </div>
   </div>
-
-  <!-- Zone vidéo (flex-grow) -->
   <div class="media-zone" id="media-zone">
     <div class="media-placeholder" id="media-ph">
       <span class="mp-icon" id="mp-icon">🎬</span>
-      <p class="mp-text">Dossier <strong>medias/</strong> — ex: <em>pigeon-au-sol.mp4</em></p>
+      <p class="mp-text">Lecteur vidéo (medias/)</p>
     </div>
     <div class="vid-overlay" id="vid-overlay" onclick="toggleVideoPlayback()">
       <span class="vid-overlay-icon" id="vid-icon">▶</span>
     </div>
   </div>
-
-  <!-- Bottom sheet -->
   <div class="bottom-sheet">
-
-    <!-- Carte Stimulus + Instructions -->
     <div class="info-card" id="info-card">
       <div class="info-row">
         <p class="info-row-label stim">🔥 Stimulus</p>
         <p class="info-row-text" id="stimulus-text">…</p>
       </div>
       <div class="info-row">
-        <p class="info-row-label inst">💡 Instructions</p>
+        <p class="info-row-label inst"> Instructions</p>
         <ul class="instr-list" id="instr-list"></ul>
       </div>
     </div>
-
-    <!-- Contrôles injectés dynamiquement -->
     <div class="controls-row" id="controls-row"></div>
-
   </div>
 </div>
 
-<!-- ════════════════════════════════════════════════
-     ÉCRAN 3 — FIN
-════════════════════════════════════════════════ -->
 <div id="screen-done" class="screen">
   <span class="done-icon">🏆</span>
   <h2 class="done-title">Session terminée !</h2>
-  <p class="done-sub">Beau travail. Votre mobilité vous remerciera demain.</p>
+  <p class="done-sub">Félicitations. Routine validée avec succès.</p>
   <div class="done-stats">
     <div class="done-stat">
       <span class="done-num" id="done-exos">0</span>
@@ -716,329 +341,189 @@ html, body {
   <button class="btn-done-back" onclick="showScreen('screen-hub')">← Retour au Hub</button>
 </div>
 
-<!-- ════════════════════════════════════════════════
-     JAVASCRIPT
-════════════════════════════════════════════════ -->
 <script>
-/* ═══════════════════════════════════════════════════
-   BASE DE DONNÉES — EXERCICES
-   Champs : nom, zones[], unilateral, temps_min, temps_max,
-            stimulus, instructions[], emoji
-═══════════════════════════════════════════════════ */
+/* =====================================================
+   BASE DE DONNÉES D'EXERCICES COMPLÈTE
+===================================================== */
 const EXERCISES = [
-  // ── HANCHES & FESSIERS ──────────────────────────
   {
     nom: "Pigeon au sol", emoji: "🦢",
     zones: ["Hanches", "Fessiers", "Chaîne Postérieure"],
     unilateral: true, temps_min: 60, temps_max: 180,
-    stimulus: "Tension profonde dans le fessier et ouverture de la hanche.",
-    instructions: [
-      "Posez un genou au sol, l'autre jambe en flexion devant vous.",
-      "Gardez le bassin carré, face au sol.",
-      "Descendez progressivement sur les coudes pour approfondir.",
-      "Relâchez à chaque expiration — ne forcez pas la descente."
-    ]
+    stimulus: "Tension profonde dans le fessier et ouverture externe de la hanche.",
+    instructions: ["Pose un genou au sol, l'autre jambe fléchie devant toi.","Maintiens ton bassin bien carré face au sol.","Descends doucement sur les coudes sans forcer."]
   },
   {
     nom: "Étirement du papillon", emoji: "🦋",
     zones: ["Hanches", "Adducteurs"],
     unilateral: false, temps_min: 45, temps_max: 120,
-    stimulus: "Pression à l'intérieur des cuisses et dans les hanches.",
-    instructions: [
-      "Assis au sol, plantes des pieds jointes.",
-      "Tenez vos chevilles, poussez doucement les genoux vers le bas avec les coudes.",
-      "Gardez le dos droit — ne vous voûtez pas.",
-      "Sentez l'ouverture progressive des hanches à chaque expir."
-    ]
+    stimulus: "Pression et ouverture progressive à l'intérieur des cuisses.",
+    instructions: ["Assis au sol, colle les plantes de tes pieds.","Attrape tes chevilles et pousse les genoux vers le bas avec tes coudes.","Garde la colonne bien droite."]
   },
   {
     nom: "Ouverture hanche 90/90", emoji: "🔄",
     zones: ["Hanches", "Rotation interne", "Chaîne Postérieure"],
     unilateral: false, temps_min: 60, temps_max: 150,
-    stimulus: "Sensation dans la face externe et interne des hanches simultanément.",
-    instructions: [
-      "Posez-vous avec les deux genoux à 90°, une jambe devant, une derrière.",
-      "Redressez le buste — ne compensez pas avec le dos.",
-      "Poussez la hanche arrière vers le sol.",
-      "Changez de côté à mi-parcours sans décoller les fessiers."
-    ]
+    stimulus: "Sensation de rotation interne et externe combinée dans le bassin.",
+    instructions: ["Pose un genou à 90° devant toi, et l'autre à 90° sur le côté.","Redressez le buste sans cambrer le bas du dos.","Presse la hanche arrière vers le tapis."]
   },
   {
-    nom: "Fente basse (Crescent Lunge)", emoji: "🏹",
+    nom: "Fente basse", emoji: "🏹",
     zones: ["Hanches", "Psoas", "Chaîne Antérieure"],
     unilateral: true, temps_min: 45, temps_max: 120,
-    stimulus: "Étirement du psoas et du pli de hanche de la jambe arrière.",
-    instructions: [
-      "Avancez en fente profonde, genou arrière au sol.",
-      "Élevez les bras au-dessus de la tête, ouvrez la poitrine.",
-      "Poussez le bassin vers l'avant et vers le bas.",
-      "Gardez le buste droit — ne vous penchez pas en avant."
-    ]
+    stimulus: "Ouverture profonde du psoas et du pli de l'aine arrière.",
+    instructions: ["Avance un pied en fente, genou arrière posé au sol.","Engage tes abdos et pousse ton bassin vers l'avant et le bas.","Leve les bras pour accentuer l'étirement."]
   },
-  // ── ISCHIOS / CHAÎNE POSTÉRIEURE ────────────────
   {
     nom: "Étirement ischio debout", emoji: "🦵",
     zones: ["Ischios", "Chaîne Postérieure"],
     unilateral: true, temps_min: 40, temps_max: 90,
-    stimulus: "Tiraillement à l'arrière de la cuisse, dans les ischios.",
-    instructions: [
-      "Posez un talon surélevé sur une surface stable.",
-      "Jambe tendue — ne verrouillez pas le genou à fond.",
-      "Penchez-vous depuis les hanches, dos plat.",
-      "Avancez la poitrine vers la cuisse, respirez amplement."
-    ]
+    stimulus: "Étirement ciblé sur l'arrière de la cuisse (ischio-jambiers).",
+    instructions: ["Pose un talon à l'avant sur un support ou une marche.","Bascule ton buste vers l'avant à partir des hanches, dos plat.","Garde la jambe avant tendue sans verrouiller le genou."]
   },
   {
-    nom: "Flexion avant assis (Paschimottanasana)", emoji: "🧘",
+    nom: "Flexion avant assis", emoji: "🧘",
     zones: ["Ischios", "Bas du dos", "Chaîne Postérieure", "Full Body"],
     unilateral: false, temps_min: 60, temps_max: 180,
-    stimulus: "Étirement sur toute la chaîne postérieure, des talons jusqu'à la nuque.",
-    instructions: [
-      "Jambes tendues devant vous, fléchissez depuis les hanches.",
-      "Attrapez chevilles ou tibias — ne tirez pas sur le dos.",
-      "Relâchez la tête et le cou entièrement.",
-      "Chaque expiration vous permet d'avancer de quelques millimètres."
-    ]
+    stimulus: "Tension globale le long de toute ta chaîne postérieure.",
+    instructions: ["Assis au sol, jambes tendues devant toi.","Penche ton buste vers l'avant en initiant le mouvement depuis les hanches.","Relâche complètement la tête, la nuque et les bras."]
   },
   {
-    nom: "Demi-saut (Ardha Hanumanasana)", emoji: "🐬",
+    nom: "Demi-saut", emoji: "🐬",
     zones: ["Ischios", "Hanches", "Chaîne Postérieure"],
     unilateral: true, temps_min: 45, temps_max: 120,
-    stimulus: "Étirement profond à l'arrière de la cuisse de la jambe tendue.",
-    instructions: [
-      "Un genou au sol, jambe avant tendue, pied fléchi vers vous.",
-      "Penchez le buste vers l'avant, dos bien plat.",
-      "Mains posées de chaque côté du pied avant.",
-      "Ne fléchissez pas la jambe avant — sentez l'étirement."
-    ]
+    stimulus: "Étirement aiguisé et localisé de l'ischio avant.",
+    instructions: ["Un genou au sol, étends l'autre jambe droite devant toi.","Fléchis les orteils vers ton visage.","Penche le buste en avant avec le dos plat, mains au sol."]
   },
   {
     nom: "Grand écart progressif", emoji: "⚡",
     zones: ["Ischios", "Adducteurs", "Hanches", "Full Body"],
     unilateral: false, temps_min: 60, temps_max: 180,
-    stimulus: "Étirement combiné des ischios et des adducteurs.",
-    instructions: [
-      "Glissez progressivement vers l'écart, mains au sol.",
-      "Contrôlez la descente — jamais de douleur aiguë.",
-      "Gardez les deux hanches bien de face.",
-      "Activez légèrement les quadriceps pour protéger les ischios."
-    ]
+    stimulus: "Tension massive combinant ischios et ouverture des adducteurs.",
+    instructions: ["Glisse doucement tes jambes vers l'écart maximum.","Prends fermement appui sur tes mains pour contrôler la descente.","Respire lentement, n'applique jamais d'à-coups."]
   },
   {
-    nom: "Chien tête en bas (Adho Mukha)", emoji: "🐕",
+    nom: "Chien tête en bas", emoji: "🐕",
     zones: ["Ischios", "Mollets", "Épaules", "Chaîne Postérieure", "Full Body"],
     unilateral: false, temps_min: 45, temps_max: 120,
-    stimulus: "Chaîne postérieure complète : mollets, ischios, bas du dos.",
-    instructions: [
-      "Mains et pieds au sol, poussez les hanches vers le ciel.",
-      "Alternez flexion des genoux pour échauffer progressivement.",
-      "Cherchez à poser les talons au sol — sans forcer.",
-      "Regardez vers le nombril, tête entre les bras."
-    ]
+    stimulus: "Allongement de la colonne et étirement intense des mollets/ischios.",
+    instructions: ["Mains et pieds au sol, pousse tes fesses le plus haut possible.","Cherche à presser tes talons dans le tapis.","Relâche la tête entre tes bras, regarde vers tes pieds."]
   },
-  // ── ÉPAULES & THORAX ────────────────────────────
   {
     nom: "Étirement pectoral au mur", emoji: "🤸",
     zones: ["Épaules", "Poitrine", "Chaîne Antérieure"],
     unilateral: true, temps_min: 30, temps_max: 90,
-    stimulus: "Ouverture du pectoral et de la face antérieure de l'épaule.",
-    instructions: [
-      "Placez main et avant-bras contre un mur, coude à 90°.",
-      "Tournez lentement le corps à l'opposé du mur.",
-      "Gardez l'épaule basse — pas de tension dans le cou.",
-      "Respirez, amplifiez l'ouverture à chaque expir."
-    ]
+    stimulus: "Ouverture du grand pectoral et de l'avant de l'épaule.",
+    instructions: ["Plaque ta main et ton avant-bras contre un mur, coude à 90°.","Pivote lentement le buste du côté opposé au mur.","Garde ton Épaule basse et détendue."]
   },
   {
     nom: "Ouverture thoracique au sol", emoji: "🕊️",
     zones: ["Épaules", "Thorax", "Colonne vertébrale", "Chaîne Antérieure"],
     unilateral: false, temps_min: 60, temps_max: 150,
-    stimulus: "Décompression de la cage thoracique et des pectoraux.",
-    instructions: [
-      "Allongé sur le dos, genoux pliés, pieds à plat.",
-      "Ouvrez les bras en croix, paumes vers le haut.",
-      "Laissez la gravité ouvrir votre poitrine — ne forcez pas.",
-      "Respirez profondément : sentez les côtes s'écarter à l'inspir."
-    ]
+    stimulus: "Extension passive de la cage thoracique et libération du sternum.",
+    instructions: ["Allonge-toi sur le dos, genoux pliés, pieds à plat.","Ouvre grand tes bras en croix, paumes tournées vers le ciel.","Laisse la gravité écraser tes épaules au sol à l'expiration."]
   },
   {
     nom: "Étirement triceps et épaule", emoji: "💪",
     zones: ["Épaules", "Bras"],
     unilateral: true, temps_min: 30, temps_max: 75,
-    stimulus: "Tiraillement le long du triceps et de la face postérieure de l'épaule.",
-    instructions: [
-      "Levez un bras, pliez-le derrière la tête.",
-      "De l'autre main, poussez doucement le coude vers l'arrière.",
-      "Gardez le buste droit — ne cambrez pas le bas du dos.",
-      "Maintenez la pression constante, ne rebondissez pas."
-    ]
+    stimulus: "Étirement le long du triceps et de l'arrière de l'épaule.",
+    instructions: ["Monte un bras au ciel et plie ton coude derrière ta tête.","Avec la main opposée, presse sagement ton coude vers l'arrière.","Reste bien droit, ne creuse pas excessivement les lombaires."]
   },
   {
     nom: "Thread the Needle", emoji: "🧵",
     zones: ["Épaules", "Thorax", "Colonne vertébrale"],
     unilateral: false, temps_min: 45, temps_max: 120,
-    stimulus: "Torsion douce sur toute la colonne thoracique.",
-    instructions: [
-      "À quatre pattes, poignets sous les épaules.",
-      "Glissez un bras sous le corps jusqu'à ce que l'épaule touche le sol.",
-      "L'autre bras reste tendu devant pour ancrer.",
-      "Respirez dans la torsion et changez de côté."
-    ]
+    stimulus: "Torsion ciblée au niveau du milieu du dos (colonne thoracique).",
+    instructions: ["À quatre pattes, glisse un bras sous ton buste.","Dépose ton épaule et ta tempe sur le tapis.","Allonge le bras opposé vers l'avant pour stabiliser."]
   },
-  // ── BAS DU DOS & COLONNE ────────────────────────
   {
     nom: "Torsion allongée", emoji: "🌀",
     zones: ["Bas du dos", "Thorax", "Colonne vertébrale"],
     unilateral: false, temps_min: 45, temps_max: 120,
-    stimulus: "Décompression lombaire et rotation de la colonne.",
-    instructions: [
-      "Allongé sur le dos, ramenez un genou sur la poitrine.",
-      "Croisez-le de l'autre côté, guidé par la main opposée.",
-      "Bras en croix, épaules collées au sol — regardez à l'opposé.",
-      "Relâchez complètement, respirez dans la torsion."
-    ]
+    stimulus: "Essorage doux de la colonne et soulagement du bas du dos.",
+    instructions: ["Allongé sur le dos, ramène un genou vers ton nombril.","Bascule ce genou du côté opposé, maintenu par ta main.","Garde tes deux épaules scotchées au sol, bras en croix."]
   },
   {
-    nom: "Chat-Vache (Marjaryasana-Bitilasana)", emoji: "🐱",
+    nom: "Chat-Vache", emoji: "🐱",
     zones: ["Bas du dos", "Colonne vertébrale"],
     unilateral: false, temps_min: 45, temps_max: 120,
-    stimulus: "Mobilisation articulaire de toute la colonne vertébrale.",
-    instructions: [
-      "À quatre pattes : poignets sous épaules, genoux sous hanches.",
-      "Inspir : creusez le dos, levez la tête et le coccyx (vache).",
-      "Expir : arrondissez le dos, rentrez le menton et le bassin (chat).",
-      "Mouvements fluides et lents, coordonnés à la respiration."
-    ]
+    stimulus: "Mobilisation fluide et lubrification de l'ensemble des vertèbres.",
+    instructions: ["À quatre pattes. Inspir : creuse le dos, lève le regard (vache).","Expir : pousse dans tes mains, arrondis le dos au maximum (chat).","Enchaîne les postures lentement au rythme du souffle."]
   },
   {
-    nom: "Posture de l'enfant (Balasana)", emoji: "🌿",
+    nom: "Posture de l'enfant", emoji: "🌿",
     zones: ["Bas du dos", "Hanches", "Épaules", "Chaîne Postérieure"],
     unilateral: false, temps_min: 60, temps_max: 180,
-    stimulus: "Relâchement profond du bas du dos et de la ceinture pelvienne.",
-    instructions: [
-      "À genoux, asseyez-vous sur vos talons.",
-      "Allongez les bras devant vous, front au sol.",
-      "Respirez profondément dans le bas du dos.",
-      "Chaque expir vous ancre davantage vers le sol."
-    ]
+    stimulus: "Relâchement total des lombaires et de la zone lombaire.",
+    instructions: ["À genoux, dépose tes fesses sur tes talons.","Allonge tes mains loin devant toi, front posé au sol.","Envoie ton air directement dans ton bas du dos."]
   },
   {
-    nom: "Sphinx (extension lombaire)", emoji: "🦁",
+    nom: "Sphinx", emoji: "🦁",
     zones: ["Bas du dos", "Chaîne Antérieure", "Colonne vertébrale"],
     unilateral: false, temps_min: 45, temps_max: 120,
-    stimulus: "Extension douce du rachis lombaire, décompression des disques.",
-    instructions: [
-      "Allongé face au sol, avant-bras au sol, coudes sous les épaules.",
-      "Soulevez doucement le buste en appui sur les avant-bras.",
-      "Épaules basses et détendues, cou dans l'axe.",
-      "Respirez dans le ventre contre le sol — relâchez les fessiers."
-    ]
+    stimulus: "Extension lombaire passive et étirement léger de la sangle abdominale.",
+    instructions: ["Allongé sur le ventre, pose tes avant-bras au sol sous tes épaules.","Redresse le haut de ton buste en pressant le pubis dans le tapis.","Relâche totalement tes fessiers et tes jambes."]
   },
-  // ── ADDUCTEURS ──────────────────────────────────
   {
     nom: "Étirement adducteur latéral", emoji: "🏇",
     zones: ["Adducteurs", "Hanches"],
     unilateral: false, temps_min: 45, temps_max: 120,
-    stimulus: "Étirement de l'intérieur de la cuisse de la jambe tendue.",
-    instructions: [
-      "En position de cavalier large, pieds parallèles.",
-      "Penchez-vous latéralement sur une jambe, l'autre reste tendue.",
-      "Gardez le dos plat — ne vous affaissez pas.",
-      "Changez de côté à mi-temps, progressez sans à-coups."
-    ]
+    stimulus: "Étirement linéaire de l'intérieur de la cuisse ouverte.",
+    instructions: ["Écarte largement les jambes, pieds parallèles.","Fléchis un genou sur le côté en gardant l'autre jambe parfaitement tendue.","Conserve ton dos plat, fesses poussées vers l'arrière."]
   },
   {
-    nom: "Grenouille (Frog Stretch)", emoji: "🐸",
+    nom: "Grenouille", emoji: "🐸",
     zones: ["Adducteurs", "Hanches", "Chaîne Postérieure"],
     unilateral: false, temps_min: 60, temps_max: 150,
-    stimulus: "Ouverture profonde des adducteurs et de l'intérieur des hanches.",
-    instructions: [
-      "À quatre pattes, écartez les genoux au maximum vers les côtés.",
-      "Tibias parallèles, chevilles dans le prolongement des genoux.",
-      "Descendez doucement les hanches vers le sol.",
-      "Balancez légèrement d'avant en arrière pour approfondir."
-    ]
+    stimulus: "Ouverture maximale et profonde du bassin et des adducteurs.",
+    instructions: ["À quatre pattes, ouvre tes genoux au maximum vers l'extérieur.","Garde tes pieds alignés avec tes genoux (angles à 90°).","Laisse descendre ton bassin vers le sol en expirant."]
   },
-  // ── MOLLETS & CHEVILLES ─────────────────────────
   {
     nom: "Étirement mollet au mur", emoji: "🦶",
     zones: ["Mollets", "Chevilles", "Chaîne Postérieure"],
     unilateral: true, temps_min: 30, temps_max: 90,
-    stimulus: "Étirement du mollet et du tendon d'Achille.",
-    instructions: [
-      "Face au mur, posez les mains à hauteur des épaules.",
-      "Reculez un pied, talon au sol, jambe tendue.",
-      "Fléchissez la jambe avant — talon arrière collé au sol.",
-      "Sentez le mollet arrière s'étirer. Changez de côté."
-    ]
+    stimulus: "Tension nette dans le jumeau (mollet) et sur le tendon d'Achille.",
+    instructions: ["Face à un mur, envoie une jambe droite loin derrière.
+","Garde impérativement ton talon arrière ancré dans le sol.","Fléchis le genou avant pour accentuer le tiraillement."]
   },
   {
     nom: "Rotation de cheville", emoji: "⭕",
     zones: ["Chevilles", "Pieds"],
     unilateral: false, temps_min: 30, temps_max: 60,
-    stimulus: "Lubrification articulaire de la cheville, proprioception.",
-    instructions: [
-      "Assis ou debout, levez un pied du sol.",
-      "Faites des cercles lents : 8 dans le sens horaire.",
-      "Puis 8 dans le sens antihoraire — cherchez l'amplitude max.",
-      "Changez de cheville et répétez."
-    ]
+    stimulus: "Déverrouillage articulaire et réveil de la cheville.",
+    instructions: ["Assis ou debout en équilibre, lève un pied.","Dessine de grands cercles lents avec le gros orteil.","Fais 8 rotations vers l'intérieur, puis 8 vers l'extérieur."]
   },
-  // ── PSOAS ───────────────────────────────────────
   {
-    nom: "Étirement du psoas allongé", emoji: "🛋️",
+    nom: "Étirement du psoas allongé", emoji: "🛏️",
     zones: ["Psoas", "Hanches", "Chaîne Antérieure"],
     unilateral: false, temps_min: 60, temps_max: 150,
-    stimulus: "Étirement du psoas et du fléchisseur de hanche.",
-    instructions: [
-      "Allongé sur le bord d'un lit ou d'une table.",
-      "Ramenez un genou sur la poitrine, l'autre jambe pend librement.",
-      "Sentez l'étirement du pli de hanche de la jambe suspendue.",
-      "Ne cambrez pas le bas du dos — gardez le genou bien serré."
-    ]
+    stimulus: "Ouverture isolée du fléchisseur de hanche profond (psoas).",
+    instructions: ["Allonge-toi sur le bord de ton lit, une fesse dans le vide.","Sers fort un genou sur ta poitrine avec tes mains.","Laisse l'autre jambe pendre complètement vers le vide."]
   },
   {
-    nom: "Dragon (fente basse profonde)", emoji: "🐉",
+    nom: "Dragon", emoji: "🐉",
     zones: ["Psoas", "Hanches", "Adducteurs", "Chaîne Antérieure"],
     unilateral: true, temps_min: 60, temps_max: 180,
-    stimulus: "Étirement maximal du psoas, des fléchisseurs et des adducteurs.",
-    instructions: [
-      "En fente basse, genou arrière au sol.",
-      "Avancez le pied avant loin sur le tapis.",
-      "Mains au sol de chaque côté du pied avant.",
-      "Relâchez le bassin vers le sol progressivement — respirez lentement."
-    ]
+    stimulus: "Stretch intense et global du bloc hanches-psoas arrière.",
+    instructions: ["Prends une fente très longue, genou arrière bien reculé au sol.","Place tes deux mains au sol à l'intérieur de ton pied avant.","Laisse ton bassin couler lourdement vers le sol."]
   },
-  // ── FULL BODY ───────────────────────────────────
   {
     nom: "Salutation au soleil", emoji: "☀️",
     zones: ["Full Body", "Chaîne Postérieure", "Chaîne Antérieure", "Épaules"],
     unilateral: false, temps_min: 90, temps_max: 180,
-    stimulus: "Activation et étirement de l'ensemble des chaînes musculaires.",
-    instructions: [
-      "Montagne → Flexion avant → Planche basse → Cobra → Chien tête en bas.",
-      "Mouvements fluides, coordonnés à la respiration.",
-      "Inspirez en montant, expirez en descendant.",
-      "Réalisez 2 à 4 cycles complets à votre rythme."
-    ]
+    stimulus: "Mise en train globale et fluide de toutes les enveloppes musculaires.",
+    instructions: ["Enchaîne doucement : Planche → Chien tête en haut → Chien tête en bas.","Calque tes mouvements sur ton souffle (Inspir monte, Expir descend).","Effectue l'enchaînement de manière continue."]
   },
   {
     nom: "Étirement latéral debout", emoji: "🌳",
     zones: ["Full Body", "Colonne vertébrale", "Thorax"],
     unilateral: false, temps_min: 30, temps_max: 75,
-    stimulus: "Décompression de toute la chaîne latérale, des pieds au bout des doigts.",
-    instructions: [
-      "Debout, pieds écartés à la largeur des épaules.",
-      "Levez un bras et penchez-vous latéralement.",
-      "L'autre main glisse le long de la cuisse — ne tombez pas en avant.",
-      "Sentez toute la chaîne latérale s'ouvrir. Changez de côté."
-    ]
+    stimulus: "Ouverture de toute la ligne latérale, des côtes jusqu'aux doigts.",
+    instructions: ["Debout, pieds écartés. Monte un bras droit vers le ciel.","Incline ton buste sur le côté opposé sans tourner tes épaules.","Pousse ta hanche à l'opposé pour créer de l'espace."]
   }
 ];
 
-/* ═══════════════════════════════════════════════════
-   CLASSIFICATION DES ZONES
-═══════════════════════════════════════════════════ */
 const GRANDES_CHAINES = ["Chaîne Postérieure","Chaîne Antérieure","Full Body","Colonne vertébrale"];
 const MUSCLES_ISOLES  = ["Hanches","Ischios","Épaules","Bas du dos","Adducteurs","Mollets","Chevilles","Psoas","Fessiers","Thorax","Poitrine","Bras","Pieds","Rotation interne"];
 
@@ -1046,21 +531,20 @@ const ZONE_EMOJIS = {
   "Chaîne Postérieure":"⛓️","Chaîne Antérieure":"🔗","Full Body":"🌐","Colonne vertébrale":"🦴",
   "Hanches":"🦯","Ischios":"🦵","Épaules":"💆","Bas du dos":"🪑",
   "Adducteurs":"🏇","Mollets":"🦿","Chevilles":"⭕","Psoas":"🐉",
-  "Fessiers":"🍑","Thorax":"🫀","Poitrine":"🤸","Bras":"💪",
-  "Pieds":"🦶","Rotation interne":"🔄"
+  "Fessiers":"🍑","Thorax":"🫀","Poitrine":"🤸","Bras":"💪","Pieds":"🦶","Rotation interne":"🔄"
 };
 
-/* ═══════════════════════════════════════════════════
-   NAVIGATION ENTRE ÉCRANS
-═══════════════════════════════════════════════════ */
+/* =====================================================
+   NAVIGATION
+===================================================== */
 function showScreen(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
 }
 
-/* ═══════════════════════════════════════════════════
-   ÉTAT SÉLECTION
-═══════════════════════════════════════════════════ */
+/* =====================================================
+   INTERFACE SÉLECTION
+===================================================== */
 let selectedZones   = new Set();
 let selectedMinutes = null;
 
@@ -1107,34 +591,21 @@ function updateStartBtn() {
     count.innerHTML = 'Cochez au moins une zone pour commencer.';
     alert.textContent = ''; btn.classList.remove('ready'); return;
   }
-  const avail = filterExercises(selectedZones);
+  const avail = EXERCISES.filter(ex => ex.zones.some(z => selectedZones.has(z)));
   count.innerHTML = `<strong>${avail.length}</strong> exercice${avail.length>1?'s':''} disponible${avail.length>1?'s':''}`;
-  if (avail.length === 0) {
-    alert.textContent = 'Aucun exercice — essayez une autre combinaison.';
-    btn.classList.remove('ready'); return;
-  }
-  if (!selectedMinutes) {
-    alert.textContent = 'Choisissez une durée.';
-    btn.classList.remove('ready'); return;
-  }
-  alert.textContent = '';
-  btn.classList.add('ready');
+  if (avail.length === 0) { alert.textContent = 'Aucun exercice — changez de zones.'; btn.classList.remove('ready'); return; }
+  if (!selectedMinutes) { alert.textContent = 'Choisissez une durée.'; btn.classList.remove('ready'); return; }
+  alert.textContent = ''; btn.classList.add('ready');
 }
 
-/* ═══════════════════════════════════════════════════
-   FILTRAGE + ALGORITHME ROUTINE
-═══════════════════════════════════════════════════ */
-function filterExercises(zones) {
-  return EXERCISES.filter(ex => ex.zones.some(z => zones.has(z)));
-}
-
-function roundTo15(s) { return Math.round(s / 15) * 15; }
-
+/* =====================================================
+   ALGORITHME DE ROUTINE
+===================================================== */
 function buildRoutine(zones, totalMinutes) {
   const totalSec = totalMinutes * 60;
-  const pool     = filterExercises(zones);
+  const pool = EXERCISES.filter(ex => ex.zones.some(z => zones.has(z)));
   if (!pool.length) return [];
-  const ratio    = Math.max(0, Math.min(1, (totalMinutes - 8) / 14));
+  const ratio = Math.max(0, Math.min(1, (totalMinutes - 8) / 14));
   const shuffled = [...pool].sort(() => Math.random() - .5);
 
   const routine = []; let elapsed = 0; let idx = 0;
@@ -1143,7 +614,7 @@ function buildRoutine(zones, totalMinutes) {
     const ex   = shuffled[idx++];
     const base = ex.temps_min + ratio * (ex.temps_max - ex.temps_min);
     const raw  = Math.max(ex.temps_min, Math.min(ex.temps_max, base + (Math.random()*40-20)));
-    const dur  = roundTo15(raw);
+    const dur  = Math.round(raw / 15) * 15; // Arrondi strict 15s
     if (elapsed + dur > totalSec * 1.08) break;
     routine.push({...ex, duration: dur});
     elapsed += dur;
@@ -1152,115 +623,102 @@ function buildRoutine(zones, totalMinutes) {
   return routine;
 }
 
-/* ═══════════════════════════════════════════════════
-   ÉTAT RUNTIME DE LA ROUTINE
-═══════════════════════════════════════════════════ */
-let routine             = [];
-let currentIdx          = 0;
-let timeLeft            = 0;
-let totalRoutineSec     = 0;
-let elapsedSec          = 0;
-let timerInterval       = null;
-let isPaused            = false;
-let isSetupPhase        = true;
-let sessionStart        = null;
-let completedCount      = 0;
-let currentVideo        = null;
+/* =====================================================
+   ÉTAT DE LA SESSION
+===================================================== */
+let routine = [];
+let currentIdx = 0;
+let timeLeft = 0;
+let totalRoutineSec = 0;
+let elapsedSec = 0;
+let timerInterval = null;
+let isPaused = false;
+let sessionStart = null;
+let completedCount = 0;
+let currentVideo = null;
 
-// Unilatéral : suivi de la moitié
-let uniHalfDone         = false; // true = on est sur le 2ème côté
+// Gestion unilatérale avancée
+let isSetupPhase = true;      // Phase de lecture des consignes avant l'exo
+let isTransitionPhase = false; // Phase tampon de 5s pour changer de côté
+let transitionTimeLeft = 5;
+let uniHalfDone = false;       // True = on est sur la 2e moitié (côté droit)
 
-/* ═══════════════════════════════════════════════════
-   DÉMARRAGE SESSION
-═══════════════════════════════════════════════════ */
+/* =====================================================
+   DÉMARRAGE DE LA ROUTINE
+===================================================== */
 function startRoutine() {
-  routine         = buildRoutine(selectedZones, selectedMinutes);
-  if (!routine.length) {
-    document.getElementById('sel-alert').textContent = 'Impossible de créer une routine.';
-    return;
-  }
+  routine = buildRoutine(selectedZones, selectedMinutes);
+  if (!routine.length) return;
   totalRoutineSec = routine.reduce((s,ex) => s + ex.duration, 0);
-  elapsedSec      = 0; currentIdx = 0; completedCount = 0;
-  sessionStart    = Date.now(); isPaused = false;
+  elapsedSec = 0; currentIdx = 0; completedCount = 0;
+  sessionStart = Date.now(); isPaused = false;
   showScreen('screen-routine');
   loadExercise(0);
 }
 
-/* ═══════════════════════════════════════════════════
-   CHARGEMENT D'UN EXERCICE (phase setup)
-═══════════════════════════════════════════════════ */
+/* =====================================================
+   CHARGEMENT DE L'EXERCICE
+===================================================== */
 function loadExercise(idx) {
   if (idx >= routine.length) { finishSession(); return; }
   clearInterval(timerInterval);
 
-  const ex      = routine[idx];
-  timeLeft      = ex.duration;
-  isSetupPhase  = true;
-  isPaused      = false;
-  uniHalfDone   = false;
+  const ex = routine[idx];
+  timeLeft = ex.duration;
+  isSetupPhase = true;
+  isTransitionPhase = false;
+  isPaused = false;
+  uniHalfDone = false;
 
-  // ── Textes
+  // Textes UI
   document.getElementById('exo-zone').textContent = ex.zones.slice(0,3).join(' · ');
   document.getElementById('exo-name').textContent = ex.emoji + ' ' + ex.nom;
   document.getElementById('step-info').textContent = `Exo ${idx+1} / ${routine.length}`;
 
-  // Sous-titre durée
   const dFmt = fmtTime(ex.duration);
   document.getElementById('exo-subtitle').textContent =
-    `Exo ${idx+1}/${routine.length} • ${ex.unilateral ? dFmt+' au total ('+fmtTime(ex.duration/2)+' par côté)' : dFmt+' au total'}`;
+    `Exo ${idx+1}/${routine.length} • ${ex.unilateral ? dFmt+' total ('+fmtTime(ex.duration/2)+' par côté)' : dFmt+' total'}`;
 
-  // ── Étiquette côté (masquée en setup, affichée après "Prêt")
-  const sideEl = document.getElementById('side-label');
-  if (ex.unilateral) {
-    sideEl.textContent = 'CÔTÉ GAUCHE ↙️';
-    sideEl.className = 'side-label hidden left'; // affiché au beginStretch
-  } else {
-    sideEl.className = 'side-label hidden';
-  }
+  // Masquage initial des badges de côté unilatéraux
+  document.getElementById('side-label').className = 'side-label hidden';
 
-  // ── Suivant
+  // Prévisualisation de l'exercice suivant
   if (idx+1 < routine.length) {
-    const nxt = routine[idx+1];
-    document.getElementById('next-name').textContent = nxt.emoji+' '+nxt.nom;
-    document.getElementById('next-zone').textContent = nxt.zones.join(', ');
+    document.getElementById('next-name').textContent = routine[idx+1].emoji + ' ' + routine[idx+1].nom;
   } else {
     document.getElementById('next-name').textContent = '— Fin de session';
-    document.getElementById('next-zone').textContent = '';
   }
 
-  // ── Stimulus + instructions
+  // Contenu informatif
   document.getElementById('stimulus-text').textContent = ex.stimulus;
-  const ul = document.getElementById('instr-list');
-  ul.innerHTML = '';
-  ex.instructions.forEach(step => {
-    const li = document.createElement('li');
-    li.textContent = step;
-    ul.appendChild(li);
-  });
+  const ul = document.getElementById('instr-list'); ul.innerHTML = '';
+  ex.instructions.forEach(step => { const li = document.createElement('li'); li.textContent = step; ul.appendChild(li); });
 
-  // ── Chrono setup
+  // Reset visuel du chronomètre (Mode Setup)
   const ring = document.getElementById('chrono-ring');
-  ring.classList.add('setup');
+  ring.className = 'chrono-ring setup';
   document.getElementById('chrono-text').textContent = fmtTime(timeLeft);
   document.getElementById('chrono-arc').style.strokeDashoffset = '0';
   document.getElementById('chrono-arc').style.stroke = 'var(--border)';
 
-  // ── Bandeau
-  document.getElementById('setup-banner').classList.remove('hidden');
+  // Affichage du bandeau explicatif de mise en place
+  const banner = document.getElementById('setup-banner');
+  banner.classList.remove('hidden');
+  banner.className = 'setup-banner';
+  document.getElementById('setup-banner-text').textContent = "📍 Installez-vous et lisez les consignes de placement.";
 
   updateGlobalProgress();
   injectVideo(ex);
   renderControls_Setup();
 }
 
-/* ═══════════════════════════════════════════════════
-   DÉMARRAGE CHRONO (clic "Prêt !")
-═══════════════════════════════════════════════════ */
+/* =====================================================
+   CLIC SUR LE BOUTON "PRÊT ! DÉMARRER"
+==================================================== */
 function beginStretch() {
-  isSetupPhase = false; isPaused = false;
+  isSetupPhase = false;
   document.getElementById('setup-banner').classList.add('hidden');
 
-  // Afficher l'étiquette côté gauche si unilatéral
   const ex = routine[currentIdx];
   const sideEl = document.getElementById('side-label');
   if (ex.unilateral) {
@@ -1268,88 +726,125 @@ function beginStretch() {
     sideEl.className = 'side-label left';
   }
 
-  document.getElementById('chrono-ring').classList.remove('setup');
-  updateChronoUI(timeLeft, ex.duration, false);
+  document.getElementById('chrono-ring').className = 'chrono-ring';
+  const arcDuration = ex.unilateral ? Math.floor(ex.duration / 2) : ex.duration;
+  updateChronoUI(timeLeft, arcDuration, ex.unilateral);
   renderControls_Stretch();
+
   clearInterval(timerInterval);
   timerInterval = setInterval(tick, 1000);
 }
 
-/* ═══════════════════════════════════════════════════
-   TICK
-═══════════════════════════════════════════════════ */
+/* =====================================================
+   TICK — HORLOGE PRINCIPALE DE LA ROUTINE
+===================================================== */
 function tick() {
   if (isPaused) return;
-  timeLeft--; elapsedSec++;
 
   const ex = routine[currentIdx];
 
-  // ── Détection moitié pour exercice unilatéral
-  if (ex.unilateral && !uniHalfDone) {
-    const half = Math.floor(ex.duration / 2);
-    if (timeLeft === half) {
+  // --- CAS UNIQUE : PHASE DE TRANSITION DE 5 SECONDES ---
+  if (isTransitionPhase) {
+    transitionTimeLeft--;
+    document.getElementById('chrono-text').textContent = `${transitionTimeLeft}s`;
+    
+    // Animation de l'arc pendant les 5s
+    const pct = transitionTimeLeft / 5;
+    document.getElementById('chrono-arc').style.strokeDashoffset = String(175.9 * (1 - pct));
+
+    if (transitionTimeLeft <= 0) {
+      // Fin de la transition : on repart sur le stretch normal
+      isTransitionPhase = false;
       uniHalfDone = true;
-      playBip('side');  // double bip
-      // Bascule côté droit
+      playBip('end'); // Bip court pour confirmer la reprise
+
+      // Bascule affichage vers côté droit
       const sideEl = document.getElementById('side-label');
       sideEl.textContent = 'CÔTÉ DROIT ↘️';
       sideEl.className = 'side-label right';
-      // Réinitialise l'arc pour la 2e moitié
-      updateChronoUI(timeLeft, half, false);
+
+      // Remise à niveau de la charte graphique normale
+      document.getElementById('setup-banner').classList.add('hidden');
+      document.getElementById('chrono-ring').className = 'chrono-ring';
+      
+      const half = Math.floor(ex.duration / 2);
+      updateChronoUI(timeLeft, half, true);
+    }
+    return;
+  }
+
+  // --- COMPTE À REBOURS DU STRETCH NORMAL ---
+  timeLeft--;
+  elapsedSec++;
+
+  // Détection du milieu de l'exercice unilatéral (Bascule vers transition)
+  if (ex.unilateral && !uniHalfDone) {
+    const half = Math.floor(ex.duration / 2);
+    if (timeLeft === half) {
+      isTransitionPhase = true;
+      transitionTimeLeft = 5;
+      playBip('side'); // Double bip montant
+
+      // Ajustement UI pour l'état temporaire de transition
+      document.getElementById('chrono-ring').className = 'chrono-ring transition-active';
+      document.getElementById('chrono-text').textContent = '5s';
+      document.getElementById('chrono-arc').style.strokeDashoffset = '0';
+      document.getElementById('chrono-arc').style.stroke = 'var(--warn)';
+
+      const banner = document.getElementById('setup-banner');
+      banner.classList.remove('hidden');
+      banner.className = 'setup-banner transition-mode';
+      document.getElementById('setup-banner-text').textContent = "🔄 Changez de côté ! Reprise dans 5 secondes...";
+      
       updateGlobalProgress();
       return;
     }
   }
 
-  // Référence pour l'arc SVG
-  const arcRef = ex.unilateral
-    ? (uniHalfDone ? Math.floor(ex.duration/2) : Math.floor(ex.duration/2))
-    : ex.duration;
-
-  // Pour arc unilatéral, on affiche la progression dans la moitié en cours
+  const arcRef = ex.unilateral ? Math.floor(ex.duration / 2) : ex.duration;
   updateChronoUI(timeLeft, arcRef, ex.unilateral);
   updateGlobalProgress();
 
   if (timeLeft <= 0) {
     playBip('end');
     clearInterval(timerInterval);
-    completedCount++;
-    currentIdx++;
+    completedCount++; currentIdx++;
     setTimeout(() => loadExercise(currentIdx), 700);
   }
 }
 
-/* ═══════════════════════════════════════════════════
-   CHRONO UI
-═══════════════════════════════════════════════════ */
+/* =====================================================
+   CHRONO ET JAUGE GRAPHISME
+===================================================== */
 function fmtTime(t) {
   t = Math.max(0, t);
   const m = Math.floor(t/60), s = t%60;
   return m > 0 ? `${m}:${String(s).padStart(2,'0')}` : `${s}s`;
 }
 
-function updateChronoUI(tLeft, fullDuration, isUnilateral) {
-  document.getElementById('chrono-text').textContent = fmtTime(tLeft);
+function updateChronoUI(tLeft, referenceDuration, isUnilateral) {
   const arc = document.getElementById('chrono-arc');
+  
+  let displayedTime = tLeft;
+  let pct = tLeft / referenceDuration;
 
-  let pct;
   if (isUnilateral) {
-    const half = Math.floor(fullDuration / 2);
+    const half = referenceDuration; // Référence reçue = déjà divisée par 2
     if (!uniHalfDone) {
-      // 1er côté : de fullDuration → half (pct va de 1→0 visuellement)
-      pct = (tLeft - half) / half;
+      displayedTime = tLeft - half;
+      pct = displayedTime / half;
     } else {
-      // 2e côté : de half → 0
-      pct = tLeft / half;
+      displayedTime = tLeft;
+      pct = displayedTime / half;
     }
-    pct = Math.max(0, Math.min(1, pct));
-  } else {
-    pct = tLeft / fullDuration;
   }
 
-  // circumference = 2π×33 ≈ 207.3
-  arc.style.strokeDashoffset = String(207.3 * (1 - pct));
-  arc.style.stroke = tLeft <= 10 ? 'var(--danger)' : 'var(--accent)';
+  document.getElementById('chrono-text').textContent = fmtTime(displayedTime);
+  pct = Math.max(0, Math.min(1, pct));
+  
+  // Circonférence = 2π×28 ≈ 175.9
+  arc.style.strokeDashoffset = String(175.9 * (1 - pct));
+  arc.style.stroke = displayedTime <= 10 ? 'var(--danger)' : 'var(--accent)';
 }
 
 function updateGlobalProgress() {
@@ -1357,36 +852,32 @@ function updateGlobalProgress() {
   document.getElementById('prog-fill').style.width = pct + '%';
 }
 
-/* ═══════════════════════════════════════════════════
-   VIDÉO
-═══════════════════════════════════════════════════ */
+/* =====================================================
+   LECTEUR VIDÉO TOTALEMENT AUTONOME (DÉCOUPLÉ)
+===================================================== */
 function injectVideo(ex) {
-  const zone    = document.getElementById('media-zone');
-  const ph      = document.getElementById('media-ph');
+  const zone = document.getElementById('media-zone');
+  const ph = document.getElementById('media-ph');
   const overlay = document.getElementById('vid-overlay');
 
-  // Supprime l'ancienne vidéo
-  if (currentVideo) {
-    currentVideo.pause(); currentVideo.src = '';
-    currentVideo.remove(); currentVideo = null;
-  }
-  overlay.classList.remove('visible');
+  if (currentVideo) { currentVideo.pause(); currentVideo.src = ''; currentVideo.remove(); currentVideo = null; }
+  
+  overlay.className = 'vid-overlay';
+  document.getElementById('vid-icon').textContent = '▶';
   document.getElementById('mp-icon').textContent = ex.emoji;
   ph.style.display = 'flex';
 
-  const slug = ex.nom.toLowerCase()
-    .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
-    .replace(/[^a-z0-9]+/g,'-').replace(/-+/g,'-').replace(/^-|-$/g,'');
+  const slug = ex.nom.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/-+/g,'-').replace(/^-|-$/g,'');
 
   const vid = document.createElement('video');
-  vid.loop = true; vid.muted = true;
-  vid.playsinline = true; vid.autoplay = true;
+  vid.loop = true; 
+  vid.muted = true;
+  vid.playsinline = true;
+  vid.autoplay = false; // RETRAIT DU LANCEMENT AUTO
   vid.src = `medias/${slug}.mp4`;
 
   vid.addEventListener('loadeddata', () => {
     ph.style.display = 'none';
-    overlay.classList.remove('visible');
-    vid.play().catch(()=>{});
   });
   vid.addEventListener('error', () => {
     ph.style.display = 'flex';
@@ -1401,53 +892,39 @@ function toggleVideoPlayback() {
   if (!currentVideo) return;
   const ov = document.getElementById('vid-overlay');
   const ic = document.getElementById('vid-icon');
+  
   if (currentVideo.paused) {
     currentVideo.play().catch(()=>{});
-    ov.classList.remove('visible');
+    ov.className = 'vid-overlay playing';
   } else {
     currentVideo.pause();
-    ov.classList.add('visible'); ic.textContent = '▶';
+    ov.className = 'vid-overlay';
+    ic.textContent = '▶';
   }
 }
 
-function syncVideoWithPause(paused) {
-  if (!currentVideo) return;
-  const ov = document.getElementById('vid-overlay');
-  const ic = document.getElementById('vid-icon');
-  if (paused) {
-    currentVideo.pause();
-    ov.classList.add('visible'); ic.textContent = '▶';
-  } else {
-    currentVideo.play().catch(()=>{});
-    ov.classList.remove('visible');
-  }
-}
-
-/* ═══════════════════════════════════════════════════
-   CONTRÔLES — RENDU SELON PHASE
-═══════════════════════════════════════════════════ */
+/* =====================================================
+   CONTRÔLES D'INTERFACES (LE TEMPS SEUL EST CONTROLÉ)
+===================================================== */
 function renderControls_Setup() {
   document.getElementById('controls-row').innerHTML = `
     <button class="btn-ctrl btn-ready-ctrl" onclick="beginStretch()">✅ Prêt — Démarrer !</button>
-    <button class="btn-ctrl btn-skip-ctrl"  onclick="skipExercise()">⏭</button>
+    <button class="btn-ctrl btn-skip-ctrl" onclick="skipExercise()">⏭</button>
   `;
 }
 
 function renderControls_Stretch() {
   document.getElementById('controls-row').innerHTML = `
     <button class="btn-ctrl btn-pause-ctrl" id="btn-pause" onclick="togglePause()">⏸ Pause</button>
-    <button class="btn-ctrl btn-next-ctrl"  onclick="nextExercise()">Suivant →</button>
+    <button class="btn-ctrl btn-next-ctrl" onclick="nextExercise()">Suivant →</button>
   `;
 }
 
-/* ═══════════════════════════════════════════════════
-   ACTIONS
-═══════════════════════════════════════════════════ */
 function togglePause() {
   isPaused = !isPaused;
   const btn = document.getElementById('btn-pause');
   if (btn) btn.textContent = isPaused ? '▶ Reprendre' : '⏸ Pause';
-  syncVideoWithPause(isPaused);
+  // AUCUNE INTERFÉRENCE AVEC LA VIDÉO ICI, LA VIDÉO RESTE SUR SON PROPRE ÉTAT
 }
 
 function nextExercise() {
@@ -1464,23 +941,14 @@ function skipExercise() {
 function quitRoutine() {
   if (!confirm('Quitter la session en cours ?')) return;
   clearInterval(timerInterval);
-  killVideo();
+  if (currentVideo) { currentVideo.pause(); currentVideo.src = ''; currentVideo.remove(); currentVideo = null; }
   showScreen('screen-selection');
   document.getElementById('setup-banner').classList.add('hidden');
 }
 
-function killVideo() {
-  if (currentVideo) {
-    currentVideo.pause(); currentVideo.src = '';
-    currentVideo.remove(); currentVideo = null;
-  }
-}
-
-/* ═══════════════════════════════════════════════════
-   FIN DE SESSION
-═══════════════════════════════════════════════════ */
 function finishSession() {
-  clearInterval(timerInterval); killVideo();
+  clearInterval(timerInterval);
+  if (currentVideo) { currentVideo.pause(); currentVideo.src = ''; currentVideo.remove(); currentVideo = null; }
   const elapsed = Math.max(1, Math.round((Date.now()-sessionStart)/1000/60));
   document.getElementById('done-exos').textContent = completedCount;
   document.getElementById('done-time').textContent = elapsed;
@@ -1488,10 +956,9 @@ function finishSession() {
   showScreen('screen-done');
 }
 
-/* ═══════════════════════════════════════════════════
-   BIP SONORE (Web Audio — aucun fichier externe)
-   mode : 'end' | 'side' | 'final'
-═══════════════════════════════════════════════════ */
+/* =====================================================
+   BIP AUDIO NATIVE GEN (SANS RESSOURCES EXTERNES)
+===================================================== */
 function playBip(mode = 'end') {
   try {
     const ctx = new (window.AudioContext || window.webkitAudioContext)();
@@ -1507,18 +974,13 @@ function playBip(mode = 'end') {
     if (mode === 'final') {
       [523,659,784].forEach((f,i) => play(f, ctx.currentTime+i*.18, .3, .35));
     } else if (mode === 'side') {
-      // Double bip montant = changement de côté
-      [660, 880].forEach((f,i) => play(f, ctx.currentTime+i*.14, .25, .2));
+      [587, 880].forEach((f,i) => play(f, ctx.currentTime+i*.12, .25, .18));
     } else {
-      // Fin d'exercice : double bip descendant
-      [1100, 880].forEach((f,i) => play(f, ctx.currentTime+i*.15, .22, .22));
+      [880, 659].forEach((f,i) => play(f, ctx.currentTime+i*.12, .22, .2));
     }
-  } catch(e) { console.warn('Audio:', e); }
+  } catch(e) { console.warn('Audio bloqué :', e); }
 }
 
-/* ═══════════════════════════════════════════════════
-   INIT
-═══════════════════════════════════════════════════ */
 initSelectionScreen();
 </script>
 </body>
