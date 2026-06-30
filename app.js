@@ -371,15 +371,6 @@ function buildDailyRoutine(totalMinutes, pf1, pf2) {
   const totalSec = totalMinutes * 60;
   // Nombre minimum d'exercices pour garantir une variété
   const minExos = totalMinutes >= 22 ? 6 : (totalMinutes >= 15 ? 4 : 3);
-  // On filtre les exercices par zone, puis on retire les doublons par nom
-  const usedExNames = new Set();
-function getUniqueExs(segment) {
-  return segment.filter(ex => {
-    if (usedExNames.has(ex.nom)) return false;
-    usedExNames.add(ex.nom);
-    return true;
-  });
-}
   
   const poolPF1 = filterExercises(new Set(pf1.dbTags));
   const poolPF2 = filterExercises(new Set(pf2.dbTags));
@@ -413,9 +404,9 @@ function getUniqueExs(segment) {
   }
 
   // Répartition plus agressive des exercices
-  const seg1 = getUniqueExs(fillSegment(safePoolPF1, totalSec * 0.4, 3));
-  const seg2 = getUniqueExs(fillSegment(safePoolPF2, totalSec * 0.3, 2));
-  const seg3 = getUniqueExs(fillSegment(safePoolOther, totalSec * 0.3, 2));
+  const seg1 = fillSegment(safePoolPF1, totalSec * 0.4, 2);
+  const seg2 = fillSegment(safePoolPF2, totalSec * 0.3, 1);
+  const seg3 = fillSegment(safePoolOther, totalSec * 0.3, 1);
 
   return interleaveSoft(seg1, seg2, seg3);
 }
@@ -537,17 +528,44 @@ function updateGlobalProgress() { document.getElementById('prog-fill').style.wid
 
 function injectVideo(ex) {
   const zone = document.getElementById('media-zone'), ph = document.getElementById('media-ph'), ov = document.getElementById('vid-overlay'), btn = document.getElementById('vid-btn');
-  if (currentVideo) { currentVideo.pause(); currentVideo.src = ''; currentVideo.remove(); currentVideo = null; }
-  document.getElementById('mp-icon').textContent = "🎬";
-  ph.style.display = 'flex'; ov.classList.add('paused'); btn.textContent = '▶';
+ 
+  // Supprime systématiquement l'ancienne vidéo AVANT toute chose,
+  // que la nouvelle vidéo (si elle existe) soit chargée.
+  if (currentVideo) {
+    currentVideo.pause();
+    currentVideo.removeAttribute('src');
+    currentVideo.load();
+    currentVideo.remove();
+    currentVideo = null;
+  }
+  ph.style.display = 'flex';
+  ov.classList.add('paused');
+  btn.textContent = '▶';
+ 
   const slug = ex.nom.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/-+/g,'-').replace(/^-|-$/g,'');
   const vid = document.createElement('video');
   vid.loop = true; vid.muted = true; vid.playsinline = true; vid.autoplay = true; vid.preload = 'auto';
-  vid.src = `medias/${slug}.mp4`;
-  vid.addEventListener('loadeddata', () => { ph.style.display = 'none'; vid.play().catch(()=>{}); ov.classList.remove('paused'); btn.textContent = '⏸'; });
-  vid.addEventListener('error', () => { ph.style.display = 'flex'; vid.remove(); currentVideo = null; });
-  zone.insertBefore(vid, ov); currentVideo = vid;
+ 
+  vid.addEventListener('loadeddata', () => {
+    // Ne réagit que si cette vidéo est toujours la vidéo active
+    // (évite qu'une réponse réseau tardive d'un exo précédent n'affiche la mauvaise vidéo)
+    if (currentVideo !== vid) return;
+    ph.style.display = 'none';
+    vid.play().catch(()=>{});
+    ov.classList.remove('paused');
+    btn.textContent = '⏸';
+  });
+  vid.addEventListener('error', () => {
+    if (currentVideo === vid) currentVideo = null;
+    ph.style.display = 'flex';
+    vid.remove();
+  });
+ 
+  zone.insertBefore(vid, ov);
+  currentVideo = vid;
+  vid.src = `medias/${slug}.mp4`;   // déclenché en dernier, une fois la vidéo bien dans le DOM
 }
+
 function toggleVideoPlayback() {
   if (!currentVideo) return;
   const ov = document.getElementById('vid-overlay'), btn = document.getElementById('vid-btn');
