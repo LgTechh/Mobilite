@@ -167,10 +167,14 @@ input[type="range"].mobility-slider::-moz-range-thumb {
 .btn-start.ready { opacity: 1; pointer-events: auto; }
 
 /* ══════════════════════════════════════════════════════════════════
-   ROUTINE — LAYOUT INCHANGÉ (ne pas modifier, fonctionne parfaitement)
-   TOP    : infos + chrono  (flex-shrink:0)
-   MIDDLE : vidéo           (flex:1, min-height:0)
-   BOTTOM : sheet           (flex-shrink:0, hauteur fixe)
+   ROUTINE — DESIGN SYSTEM V2
+   Layout (inchangé) :
+     1. Timeline          flex-shrink:0
+     2. Meta exo          flex-shrink:0
+     3. Chrono            flex-shrink:0
+     4. Vidéo             flex-shrink:0, aspect-ratio 16/9
+     5. Info scroll       flex:1
+     6. Boutons           flex-shrink:0
 ══════════════════════════════════════════════════════════════════ */
 #screen-routine {
   display: flex !important;
@@ -180,106 +184,378 @@ input[type="range"].mobility-slider::-moz-range-thumb {
   overflow: hidden;
 }
 
-/* — Barre prog — */
-.progress-bar  { height: 3px; background: var(--border); flex-shrink: 0; }
-.progress-fill { height: 100%; background: var(--accent); width: 0%; transition: width 1s linear; }
-
-/* — Topbar — */
-.rout-topbar { flex-shrink: 0; display: flex; justify-content: space-between; align-items: center; padding: 8px 16px 4px; }
-.rout-step { font-size: 12px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--dim); }
-.btn-quit { background: none; border: 1px solid var(--border); color: var(--dim); border-radius: 20px; padding: 4px 12px; font-size: 12px; font-weight: 600; cursor: pointer; font-family: var(--font); }
-.btn-quit:active { border-color: var(--danger); color: var(--danger); }
-
-/* — Bannière changement de côté — */
-.side-switch-banner { flex-shrink: 0; margin: 0 16px 4px; background: rgba(255,170,44,.1); border: 1px solid rgba(255,170,44,.35); border-radius: var(--rs); padding: 8px 14px; display: none; align-items: center; justify-content: space-between; gap: 10px; }
-.side-switch-banner.visible { display: flex; }
-.ssb-text { font-size: 12px; font-weight: 700; color: var(--warn); }
-.ssb-count { font-size: 18px; font-weight: 900; color: var(--warn); min-width: 28px; text-align: right; }
-
-/* — Meta exo — */
-.rout-meta { flex-shrink: 0; padding: 0 16px 2px; }
-.exo-zone-tag { display: inline-block; background: rgba(71,184,255,.12); color: var(--a2); border-radius: 20px; font-size: 10px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; padding: 2px 9px; margin-bottom: 2px; }
-.exo-name { font-size: 18px; font-weight: 800; letter-spacing: -.02em; line-height: 1.1; color: var(--txt); }
-.side-label { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; padding: 2px 8px; border-radius: 20px; margin-bottom: 1px; }
-.side-label.left   { background: rgba(255,170,44,.12); color: var(--warn); border: 1px solid rgba(255,170,44,.3); }
-.side-label.right  { background: rgba(71,184,255,.12);  color: var(--a2);  border: 1px solid rgba(71,184,255,.3); }
-.side-label.hidden { display: none; }
-.exo-subtitle { font-size: 10px; color: var(--dim); font-weight: 500; }
-
-/* — Chrono row — */
-.chrono-row { flex-shrink: 0; display: flex; align-items: center; gap: 12px; padding: 4px 16px; }
-.chrono-ring { position: relative; width: 60px; height: 60px; flex-shrink: 0; }
-.chrono-ring svg { transform: rotate(-90deg); width: 60px; height: 60px; }
-.c-track { fill: none; stroke: var(--border); stroke-width: 5; }
-.c-arc   { fill: none; stroke: var(--accent); stroke-width: 5; stroke-linecap: round; stroke-dasharray: 207.3; stroke-dashoffset: 0; transition: stroke-dashoffset 1s linear, stroke .3s; }
-.c-text  { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); font-size: 15px; font-weight: 800; letter-spacing: -.03em; }
-.chrono-ring.setup .c-arc  { stroke: var(--border); }
-.chrono-ring.setup .c-text { color: var(--dim); font-size: 11px; }
-.chrono-ring.side-switch .c-arc  { stroke: var(--warn); }
-.chrono-ring.side-switch .c-text { color: var(--warn); font-size: 11px; }
-.next-block { flex: 1; min-width: 0; }
-.next-lbl  { font-size: 10px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--dim); margin-bottom: 2px; }
-.next-name { font-size: 13px; font-weight: 700; color: var(--txt); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.next-zone { font-size: 11px; color: var(--dim); }
-
-/* ══ VIDÉO : flex:1 + min-height:0 = prend TOUT l'espace restant ══ */
-.media-zone {
-  flex: 1;
-  min-height: 0;   /* indispensable — sans ça flex:1 ne réduit pas */
-  margin: 4px 16px;
-  position: relative;
-  border-radius: var(--r);
-  overflow: hidden;
-  background: #000;
-  border: 1px solid var(--border);
-}
-.media-zone video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
-.media-placeholder { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; color: var(--dim); }
-.mp-icon { font-size: 40px; opacity: .35; }
-.mp-text { font-size: 11px; text-align: center; max-width: 200px; line-height: 1.5; opacity: .4; }
-.vid-overlay { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; cursor: pointer; pointer-events: auto; background: transparent; transition: background .2s; }
-.vid-btn { position: absolute; bottom: 10px; right: 10px; width: 34px; height: 34px; border-radius: 50%; background: rgba(0,0,0,.55); border: 1px solid rgba(255,255,255,.15); display: flex; align-items: center; justify-content: center; font-size: 14px; pointer-events: none; color: #fff; }
-.vid-overlay.paused { background: rgba(0,0,0,.45); }
-.vid-overlay.paused .vid-btn { opacity: 0; }
-.vid-center-icon { font-size: 48px; opacity: 0; transition: opacity .2s; filter: drop-shadow(0 2px 10px rgba(0,0,0,.6)); pointer-events: none; }
-.vid-overlay.paused .vid-center-icon { opacity: 1; }
-
-/* ══ BOTTOM SHEET : hauteur fixe, toujours visible ══ */
-.bottom-sheet {
+/* ── 1. TIMELINE ─────────────────────────────────────────────── */
+.session-timeline {
   flex-shrink: 0;
-  height: 210px;              /* hauteur fixe absolue */
-  background: var(--surface);
-  border-top: 1px solid var(--border);
-  border-radius: 16px 16px 0 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px 8px;
+}
+
+/* Bouton quitter intégré dans la timeline */
+.btn-quit {
+  background: none;
+  border: none;
+  color: var(--dim);
+  font-size: 13px;
+  font-weight: 600;
+  font-family: var(--font);
+  cursor: pointer;
+  padding: 0;
+  flex-shrink: 0;
+  letter-spacing: .05em;
+  transition: color var(--ease);
+}
+.btn-quit:active { color: var(--danger); }
+
+.timeline-dots {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 5px;
+  overflow: hidden;
+}
+
+/* Chaque point de la timeline */
+.tl-dot {
+  border-radius: 50%;
+  flex-shrink: 0;
+  transition: all .35s var(--ease);
+}
+/* Futur = petit point discret */
+.tl-dot.future {
+  width: 5px;
+  height: 5px;
+  background: var(--border);
+}
+/* Actif = cercle plein accentué, légèrement plus grand */
+.tl-dot.active {
+  width: 8px;
+  height: 8px;
+  background: var(--accent);
+  box-shadow: 0 0 6px rgba(232,255,71,.5);
+}
+/* Complété = point grisé, même taille que futur */
+.tl-dot.done {
+  width: 5px;
+  height: 5px;
+  background: #3a3f52;
+}
+
+/* ── Bannière changement de côté ── */
+.side-switch-banner {
+  flex-shrink: 0;
+  margin: 0 16px 4px;
+  background: rgba(255,170,44,.08);
+  border: 1px solid rgba(255,170,44,.25);
+  border-radius: 10px;
+  padding: 7px 14px;
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.side-switch-banner.visible { display: flex; }
+.ssb-text { font-size: 12px; font-weight: 600; color: var(--warn); letter-spacing: .04em; }
+.ssb-count { font-size: 17px; font-weight: 900; color: var(--warn); font-variant-numeric: tabular-nums; }
+
+/* ── 2. META EXERCICE ────────────────────────────────────────── */
+.rout-meta { flex-shrink: 0; padding: 0 16px 4px; }
+
+.rout-meta-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+.exo-zone-tag {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--a2);
+  /* Pas de background ni border : texte seul, épuré */
+}
+
+.side-label {
+  display: inline-flex;
+  align-items: center;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 20px;
+}
+.side-label.left  { background: rgba(255,170,44,.1); color: var(--warn); }
+.side-label.right { background: rgba(71,184,255,.1);  color: var(--a2); }
+.side-label.hidden { display: none; }
+
+/* Nom de l'exercice — typographie imposante */
+.exo-name {
+  font-size: 26px;
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  line-height: 1.05;
+  color: var(--txt);
+  margin-bottom: 4px;
+}
+
+.rout-meta-bottom {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+}
+.exo-subtitle {
+  font-size: 11px;
+  color: var(--dim);
+  font-weight: 500;
+}
+/* Exercice suivant — très discret, inline à droite */
+.next-inline {
   display: flex;
   flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
   overflow: hidden;
 }
-.sheet-scroll { flex: 1; overflow-y: auto; min-height: 0; -webkit-overflow-scrolling: touch; padding: 8px 14px 4px; }
-.sheet-scroll::-webkit-scrollbar { display: none; }
-.sheet-controls { flex-shrink: 0; padding: 6px 14px calc(var(--sab) + 8px); border-top: 1px solid var(--border); background: var(--surface); }
+.next-inline-lbl {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: #3a3f52;
+  flex-shrink: 0;
+}
+.next-inline-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--txt);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 
-/* Carte info */
-.info-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--rs); overflow: hidden; }
-.info-row { padding: 6px 10px; }
-.info-row + .info-row { border-top: 1px solid var(--border); }
-.info-row-label { font-size: 9px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; margin-bottom: 3px; }
+/* ── 3. CHRONO ───────────────────────────────────────────────── */
+.chrono-row {
+  flex-shrink: 0;
+  padding: 2px 16px 6px;
+}
+.chrono-ring {
+  position: relative;
+  width: 56px;
+  height: 56px;
+}
+.chrono-ring svg { transform: rotate(-90deg); width: 56px; height: 56px; }
+.c-track { fill: none; stroke: #1e2233; stroke-width: 4; }
+.c-arc {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-dasharray: 207.3;
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 1s linear, stroke .3s;
+}
+/* Temps dans le chrono — police monospace pour éviter les sauts */
+.c-text {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'SF Mono', 'Monaco', 'Courier New', monospace;
+  font-size: 18px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -.02em;
+  color: var(--txt);
+}
+.chrono-ring.setup .c-arc  { stroke: #1e2233; }
+.chrono-ring.setup .c-text { color: var(--dim); }
+.chrono-ring.side-switch .c-arc  { stroke: var(--warn); }
+.chrono-ring.side-switch .c-text { color: var(--warn); }
+
+/* ── 4. VIDÉO ────────────────────────────────────────────────── */
+.media-zone {
+  flex-shrink: 0;
+  width: calc(100% - 32px);;
+  margin: 0 16px;
+  aspect-ratio: 16 / 9;
+  position: relative;
+  overflow: hidden;
+  border-radius: 20px;                    /* border-radius généreux */
+  background: var(--bg);
+  /* Profondeur sans bordure marquée */
+  box-shadow: 0 8px 24px rgba(0,0,0,.5);
+}
+.media-zone video {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+.media-placeholder {
+  position: absolute; inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--dim);
+}
+.vid-overlay {
+  position: absolute; inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  pointer-events: auto;
+  background: transparent;
+  transition: background .2s;
+  border-radius: 20px;
+}
+.vid-btn {
+  position: absolute;
+  bottom: 10px; right: 10px;
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  background: rgba(0,0,0,.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+.vid-overlay.paused { background: rgba(0,0,0,.4); }
+.vid-overlay.paused .vid-btn { opacity: 0; }
+.vid-center-icon {
+  opacity: 0;
+  transition: opacity .2s;
+  pointer-events: none;
+}
+.vid-overlay.paused .vid-center-icon { opacity: 1; }
+
+/* ── 5. INFO SCROLL ──────────────────────────────────────────── */
+.info-scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 10px 16px 4px;
+}
+.info-scroll::-webkit-scrollbar { display: none; }
+
+/* Carte info — profondeur par variations de gris, pas de border marquée */
+.info-card {
+  background: var(--card);
+  border-radius: 20px;                    /* border-radius généreux */
+  overflow: hidden;
+  /* Légère ombre pour la profondeur */
+  box-shadow: 0 2px 12px rgba(0,0,0,.25);
+}
+.info-row { padding: 8px 14px; }
+.info-row + .info-row { border-top: 1px solid rgba(255,255,255,.04); }
+
+.info-row-label {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  margin-bottom: 5px;
+}
 .info-row-label.stim { color: var(--warn); }
 .info-row-label.inst { color: var(--a2); }
-.info-row-text { font-size: 11.5px; line-height: 1.45; color: var(--dim); }
-.instr-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 2px; }
-.instr-list li { font-size: 11.5px; line-height: 1.35; color: var(--dim); padding-left: 13px; position: relative; }
-.instr-list li::before { content: '›'; position: absolute; left: 0; color: var(--a2); font-weight: 700; }
+.info-row-text { font-size: 12px; line-height: 1.5; color: var(--dim); }
 
-/* Boutons */
+/* Instructions — design aéré avec tiret SVG minimaliste */
+.instr-list {
+  list-style: none;
+  padding: 0; margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.instr-list li {
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--dim);
+  padding-left: 18px;
+  position: relative;
+}
+/* Tiret SVG inline : trait fin et élégant */
+.instr-list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 8px;
+  width: 10px;
+  height: 1.5px;
+  background: var(--a2);
+  opacity: .6;
+  border-radius: 1px;
+}
+
+/* ── 6. BOUTONS ──────────────────────────────────────────────── */
+.sheet-controls {
+  flex-shrink: 0;
+  padding: 8px 16px calc(var(--sab) + 10px);
+  /* Pas de fond marqué : fondu naturel avec l'écran */
+  background: linear-gradient(to top, var(--bg) 70%, transparent);
+}
+
 .controls-row { display: flex; gap: 8px; }
-.btn-ctrl { flex: 1; padding: 12px 8px; border-radius: var(--r); border: none; font-family: var(--font); font-size: 13px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 5px; }
-.btn-pause-ctrl { background: var(--card); border: 1px solid var(--border); color: var(--txt); }
-.btn-pause-ctrl.is-paused { border-color: var(--warn); color: var(--warn); background: rgba(255,170,44,.08); }
-.btn-next-ctrl  { flex: 1.4; background: var(--accent); color: #0d0f14; }
-.btn-ready-ctrl { flex: 1.8; background: var(--accent); color: #0d0f14; font-size: 14px; animation: pulse-ready 1.5s ease-in-out infinite; }
-@keyframes pulse-ready { 0%{box-shadow:0 0 0 0 rgba(232,255,71,.55)} 60%{box-shadow:0 0 0 12px rgba(232,255,71,0)} 100%{box-shadow:0 0 0 0 rgba(232,255,71,0)} }
-.btn-skip-ctrl { flex: .6; background: var(--card); border: 1px solid var(--border); color: var(--dim); }
+
+.btn-ctrl {
+  flex: 1;
+  padding: 13px 8px;
+  border-radius: 14px;
+  border: none;
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  transition: opacity var(--ease), transform var(--ease);
+}
+.btn-ctrl:active { transform: scale(.97); opacity: .85; }
+
+/* Pause — discret : fond transparent, bordure fine */
+.btn-pause-ctrl {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,.12);
+  color: var(--dim);
+  font-weight: 500;
+}
+.btn-pause-ctrl.is-paused {
+  border-color: rgba(255,170,44,.3);
+  color: var(--warn);
+}
+
+/* Suivant / Ready — tout le poids visuel ici */
+.btn-next-ctrl  { flex: 1.6; background: var(--accent); color: #0d0f14; font-weight: 800; }
+.btn-ready-ctrl {
+  flex: 1.8;
+  background: var(--accent);
+  color: #0d0f14;
+  font-size: 14px;
+  font-weight: 800;
+  animation: pulse-ready 1.6s ease-in-out infinite;
+}
+@keyframes pulse-ready {
+  0%   { box-shadow: 0 0 0 0   rgba(232,255,71,.5); }
+  60%  { box-shadow: 0 0 0 10px rgba(232,255,71,0); }
+  100% { box-shadow: 0 0 0 0   rgba(232,255,71,0); }
+}
+/* Passer — petit, sobre */
+.btn-skip-ctrl {
+  flex: .55;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,.08);
+  color: #3a3f52;
+  font-weight: 500;
+}
 
 /* ══════════════════════════════════
    DONE

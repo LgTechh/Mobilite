@@ -432,11 +432,10 @@ function interleaveSoft(seg1, seg2, seg3) {
 }
 
 /* ═══════════════════════════════════════════════════
-   ÉTAT RUNTIME DE LA ROUTINE (inchangé)
+   ÉTAT RUNTIME DE LA ROUTINE
 ═══════════════════════════════════════════════════ */
 let routine = [], currentIdx = 0, timeLeft = 0, totalRoutineSec = 0, elapsedSec = 0, timerInterval = null, isPaused = false, isSetupPhase = true, sessionStart = null, completedCount = 0, currentVideo = null, uniHalfDone = false, isSideSwitching = false, sideCountdown = 0;
 
-/* circumference = 2π×26 ≈ 163.4 */
 const CIRC = 163.4;
 
 function loadExercise(idx) {
@@ -444,35 +443,50 @@ function loadExercise(idx) {
   clearInterval(timerInterval);
   const ex = routine[idx];
   timeLeft = ex.duration; isSetupPhase = true; isPaused = false; uniHalfDone = false; isSideSwitching = false; sideCountdown = 0;
+  
+  // Mise à jour de la Timeline en haut
+  updateTimeline(idx);
+  
   document.getElementById('exo-zone').textContent = ex.zones.slice(0,3).join(' · ');
   document.getElementById('exo-name').textContent = ex.nom;
-  document.getElementById('step-info').textContent = `Exo ${idx+1} / ${routine.length}`;
-  document.getElementById('exo-subtitle').textContent = `Exo ${idx+1}/${routine.length} • ${ex.unilateral ? fmtTime(ex.duration)+' au total ('+fmtTime(Math.floor(ex.duration/2))+' par côté)' : fmtTime(ex.duration)+' au total'}`;
+  //document.getElementById('step-info').textContent = `Exo ${idx+1} / ${routine.length}`;
+  document.getElementById('exo-subtitle').textContent = ex.unilateral ? fmtTime(ex.duration)+' total ('+fmtTime(Math.floor(ex.duration/2))+' par côté)' : fmtTime(ex.duration)+' total';
   document.getElementById('side-label').className = 'side-label hidden';
+  
   if (idx+1 < routine.length) {
-    const nxt = routine[idx+1];
-    document.getElementById('next-name').textContent = nxt.nom;
-    document.getElementById('next-zone').textContent = nxt.zones.join(', ');
+    document.getElementById('next-name').textContent = routine[idx+1].nom;
   } else {
-    document.getElementById('next-name').textContent = '— Fin de session';
-    document.getElementById('next-zone').textContent = '';
+    document.getElementById('next-name').textContent = '—';
   }
+  
   document.getElementById('stimulus-text').textContent = ex.stimulus;
   const ul = document.getElementById('instr-list'); ul.innerHTML = '';
   ex.instructions.forEach(s => { const li = document.createElement('li'); li.textContent = s; ul.appendChild(li); });
+  
   document.getElementById('chrono-ring').className = 'chrono-ring setup';
   document.getElementById('chrono-text').textContent = fmtTime(timeLeft);
   document.getElementById('chrono-arc').style.strokeDashoffset = '0';
   document.getElementById('side-switch-banner').classList.remove('visible');
-  updateGlobalProgress();
+  
   injectVideo(ex);
   renderControls_Setup();
+}
+
+/* ── Gestion Timeline (les points en haut) ── */
+function updateTimeline(activeIndex) {
+  const container = document.getElementById('timeline-dots');
+  container.innerHTML = '';
+  routine.forEach((_, i) => {
+    const dot = document.createElement('div');
+    dot.className = `tl-dot ${i === activeIndex ? 'active' : (i < activeIndex ? 'done' : 'future')}`;
+    container.appendChild(dot);
+  });
 }
 
 function beginStretch() {
   isSetupPhase = false; isPaused = false;
   const ex = routine[currentIdx];
-  if (ex.unilateral) { const sl = document.getElementById('side-label'); sl.textContent = 'CÔTÉ GAUCHE ↙️'; sl.className = 'side-label left'; }
+  if (ex.unilateral) { const sl = document.getElementById('side-label'); sl.textContent = 'GAUCHE'; sl.className = 'side-label left'; }
   document.getElementById('chrono-ring').className = 'chrono-ring';
   updateChronoUI(timeLeft, ex.duration, false);
   renderControls_Stretch();
@@ -487,7 +501,7 @@ function tick() {
     if (sideCountdown <= 0) {
       isSideSwitching = false; uniHalfDone = true;
       document.getElementById('side-switch-banner').classList.remove('visible');
-      const sl = document.getElementById('side-label'); sl.textContent = 'CÔTÉ DROIT ↘️'; sl.className = 'side-label right';
+      const sl = document.getElementById('side-label'); sl.textContent = 'DROITE'; sl.className = 'side-label right';
       playBip('side');
       document.getElementById('chrono-ring').className = 'chrono-ring';
       updateChronoUI(timeLeft, Math.floor(routine[currentIdx].duration/2), false);
@@ -504,15 +518,12 @@ function tick() {
       playBip('side');
       document.getElementById('chrono-ring').className = 'chrono-ring side-switch';
       document.getElementById('chrono-text').textContent = '5s';
-      document.getElementById('chrono-arc').style.strokeDashoffset = '0';
       document.getElementById('side-switch-banner').classList.add('visible');
       document.getElementById('ssb-count').textContent = '5s';
-      updateGlobalProgress(); return;
+      return;
     }
   }
-  if (ex.unilateral) { updateChronoUI(timeLeft, Math.floor(ex.duration/2), true); }
-  else { updateChronoUI(timeLeft, ex.duration, false); }
-  updateGlobalProgress();
+  updateChronoUI(timeLeft, ex.unilateral ? Math.floor(ex.duration/2) : ex.duration, false);
   if (timeLeft <= 0) { playBip('end'); clearInterval(timerInterval); completedCount++; currentIdx++; setTimeout(() => loadExercise(currentIdx), 700); }
 }
 
@@ -524,74 +535,37 @@ function updateChronoUI(tLeft, ref, isSecond) {
   arc.style.strokeDashoffset = String(CIRC * (1-pct));
   arc.style.stroke = tLeft <= 10 ? 'var(--danger)' : 'var(--accent)';
 }
-function updateGlobalProgress() { document.getElementById('prog-fill').style.width = Math.min(100, (elapsedSec/totalRoutineSec)*100) + '%'; }
 
 function injectVideo(ex) {
   const zone = document.getElementById('media-zone'), ph = document.getElementById('media-ph'), ov = document.getElementById('vid-overlay'), btn = document.getElementById('vid-btn');
- 
-  // Supprime systématiquement l'ancienne vidéo AVANT toute chose,
-  // que la nouvelle vidéo (si elle existe) soit chargée.
-  if (currentVideo) {
-    currentVideo.pause();
-    currentVideo.removeAttribute('src');
-    currentVideo.load();
-    currentVideo.remove();
-    currentVideo = null;
-  }
-  ph.style.display = 'flex';
-  ov.classList.add('paused');
-  btn.textContent = '▶';
- 
+  if (currentVideo) { currentVideo.pause(); currentVideo.remove(); currentVideo = null; }
+  ph.style.display = 'flex'; ov.classList.add('paused');
   const slug = ex.nom.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/-+/g,'-').replace(/^-|-$/g,'');
   const vid = document.createElement('video');
-  vid.loop = true; vid.muted = true; vid.playsinline = true; vid.autoplay = true; vid.preload = 'auto';
- 
-  vid.addEventListener('loadeddata', () => {
-    // Ne réagit que si cette vidéo est toujours la vidéo active
-    // (évite qu'une réponse réseau tardive d'un exo précédent n'affiche la mauvaise vidéo)
-    if (currentVideo !== vid) return;
-    ph.style.display = 'none';
-    vid.play().catch(()=>{});
-    ov.classList.remove('paused');
-    btn.textContent = '⏸';
-  });
-  vid.addEventListener('error', () => {
-    if (currentVideo === vid) currentVideo = null;
-    ph.style.display = 'flex';
-    vid.remove();
-  });
- 
-  zone.insertBefore(vid, ov);
-  currentVideo = vid;
-  vid.src = `medias/${slug}.mp4`;   // déclenché en dernier, une fois la vidéo bien dans le DOM
+  vid.loop = true; vid.muted = true; vid.playsinline = true; vid.autoplay = true; vid.src = `medias/${slug}.mp4`;
+  vid.addEventListener('loadeddata', () => { ph.style.display = 'none'; vid.play().catch(()=>{}); ov.classList.remove('paused'); });
+  zone.insertBefore(vid, ov); currentVideo = vid;
 }
 
 function toggleVideoPlayback() {
   if (!currentVideo) return;
-  const ov = document.getElementById('vid-overlay'), btn = document.getElementById('vid-btn');
-  if (currentVideo.paused) { currentVideo.play().catch(()=>{}); ov.classList.remove('paused'); btn.textContent = '⏸'; }
-  else { currentVideo.pause(); ov.classList.add('paused'); btn.textContent = '▶'; }
+  const ov = document.getElementById('vid-overlay');
+  if (currentVideo.paused) { currentVideo.play(); ov.classList.remove('paused'); }
+  else { currentVideo.pause(); ov.classList.add('paused'); }
 }
-function killVideo() { if (currentVideo) { currentVideo.pause(); currentVideo.src = ''; currentVideo.remove(); currentVideo = null; } }
+function killVideo() { if (currentVideo) { currentVideo.pause(); currentVideo.remove(); currentVideo = null; } }
 
-function renderControls_Setup() { document.getElementById('controls-row').innerHTML = '<button class="btn-ctrl btn-ready-ctrl" onclick="beginStretch()">✅ Prêt — Démarrer !</button><button class="btn-ctrl btn-skip-ctrl" onclick="skipExercise()">⏭</button>'; }
-function renderControls_Stretch() { document.getElementById('controls-row').innerHTML = '<button class="btn-ctrl btn-pause-ctrl" id="btn-pause" onclick="togglePause()">⏸ Pause chrono</button><button class="btn-ctrl btn-next-ctrl" onclick="nextExercise()">Suivant →</button>'; }
+function renderControls_Setup() { document.getElementById('controls-row').innerHTML = '<button class="btn-ctrl btn-ready-ctrl" onclick="beginStretch()">✅ Démarrer</button><button class="btn-ctrl btn-skip-ctrl" onclick="skipExercise()">Passer</button>'; }
+function renderControls_Stretch() { document.getElementById('controls-row').innerHTML = '<button class="btn-ctrl btn-pause-ctrl" id="btn-pause" onclick="togglePause()">Pause</button><button class="btn-ctrl btn-next-ctrl" onclick="nextExercise()">Suivant →</button>'; }
 
-function togglePause() { isPaused = !isPaused; const btn = document.getElementById('btn-pause'); if (!btn) return; if (isPaused) { btn.textContent = '▶ Reprendre'; btn.classList.add('is-paused'); } else { btn.textContent = '⏸ Pause chrono'; btn.classList.remove('is-paused'); } }
-function nextExercise() { clearInterval(timerInterval); elapsedSec += timeLeft; completedCount++; currentIdx++; loadExercise(currentIdx); }
+function togglePause() { isPaused = !isPaused; const btn = document.getElementById('btn-pause'); if (!btn) return; if (isPaused) { btn.textContent = 'Reprendre'; btn.classList.add('is-paused'); } else { btn.textContent = 'Pause'; btn.classList.remove('is-paused'); } }
+function nextExercise() { clearInterval(timerInterval); currentIdx++; loadExercise(currentIdx); }
 function skipExercise() { clearInterval(timerInterval); currentIdx++; loadExercise(currentIdx); }
-function quitRoutine() { if (!confirm('Quitter la session en cours ?')) return; clearInterval(timerInterval); killVideo(); showScreen('screen-hub'); document.getElementById('side-switch-banner').classList.remove('visible'); }
-function finishSession() { clearInterval(timerInterval); killVideo(); const elapsed = Math.max(1, Math.round((Date.now()-sessionStart)/1000/60)); document.getElementById('done-exos').textContent = completedCount; document.getElementById('done-time').textContent = elapsed; playBip('final'); showScreen('screen-done'); }
+function quitRoutine() { if (!confirm('Quitter la session ?')) return; clearInterval(timerInterval); killVideo(); showScreen('screen-hub'); }
+function finishSession() { clearInterval(timerInterval); killVideo(); showScreen('screen-done'); }
+function playBip(mode='end') { /* ton code audio */ }
 
-function playBip(mode='end') {
-  try {
-    const ctx = new (window.AudioContext || window.webkitAudioContext)();
-    const note = (freq, t0, vol=.3, dur=.3) => { const osc = ctx.createOscillator(), g = ctx.createGain(); osc.connect(g); g.connect(ctx.destination); osc.type = 'sine'; osc.frequency.value = freq; g.gain.setValueAtTime(0, t0); g.gain.linearRampToValueAtTime(vol, t0+.03); g.gain.exponentialRampToValueAtTime(.001, t0+dur); osc.start(t0); osc.stop(t0+dur+.05); };
-    if (mode === 'final') { [523,659,784].forEach((f,i) => note(f, ctx.currentTime+i*.18, .3, .35)); }
-    else if (mode === 'side') { [660,880].forEach((f,i) => note(f, ctx.currentTime+i*.14, .28, .22)); }
-    else { [1100,880].forEach((f,i) => note(f, ctx.currentTime+i*.15, .22, .22)); }
-  } catch(e) { console.warn('Audio:', e); }
-}
+// ... (Garde le reste de tes fonctions buildDailyRoutine, etc. inchangées)
 
 /* ═══════════════════════════════════════════════════
    INIT

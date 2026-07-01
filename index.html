@@ -171,24 +171,39 @@
 </div>
 
 <!-- ════════════════════════════════════════════════
-     ÉCRAN 2 — ROUTINE (layout inchangé)
+     ÉCRAN 2 — ROUTINE
 ════════════════════════════════════════════════ -->
 <div id="screen-routine" class="screen">
-  <div class="progress-bar"><div class="progress-fill" id="prog-fill"></div></div>
-  <div class="rout-topbar">
-    <span class="rout-step" id="step-info">Exo 1 / 6</span>
-    <button class="btn-quit" onclick="quitRoutine()">✕ Quitter</button>
+
+  <!-- 1. TIMELINE — remplace la progress-bar, générée par JS -->
+  <div class="session-timeline" id="session-timeline">
+    <button class="btn-quit" onclick="quitRoutine()">✕</button>
+    <div class="timeline-dots" id="timeline-dots"></div>
   </div>
+
+  <!-- Bannière changement de côté -->
   <div class="side-switch-banner" id="side-switch-banner">
-    <span class="ssb-text">🔄 Changez de côté !</span>
+    <span class="ssb-text">Changez de côté</span>
     <span class="ssb-count" id="ssb-count">5s</span>
   </div>
+
+  <!-- 2. META EXERCICE — hiérarchie typographique repensée -->
   <div class="rout-meta">
-    <span class="exo-zone-tag" id="exo-zone">Hanches</span><br/>
-    <span class="side-label hidden" id="side-label">CÔTÉ GAUCHE</span>
+    <div class="rout-meta-top">
+      <span class="exo-zone-tag" id="exo-zone">Hanches</span>
+      <span class="side-label hidden" id="side-label">GAUCHE</span>
+    </div>
     <h2 class="exo-name" id="exo-name">Pigeon au sol</h2>
-    <p class="exo-subtitle" id="exo-subtitle">Exo 1/6 • 2:00 par côté</p>
+    <div class="rout-meta-bottom">
+      <span class="exo-subtitle" id="exo-subtitle">2:00 par côté</span>
+      <span class="next-inline">
+        <span class="next-inline-lbl">Suiv.</span>
+        <span class="next-inline-name" id="next-name">—</span>
+      </span>
+    </div>
   </div>
+
+  <!-- 3. CHRONO — police monospace, taille imposante -->
   <div class="chrono-row">
     <div class="chrono-ring" id="chrono-ring">
       <svg viewBox="0 0 60 60">
@@ -197,41 +212,40 @@
       </svg>
       <span class="c-text" id="chrono-text">—</span>
     </div>
-    <div class="next-block">
-      <p class="next-lbl">Suivant</p>
-      <p class="next-name" id="next-name">—</p>
-      <p class="next-zone" id="next-zone"></p>
-    </div>
   </div>
 
-  <!-- VIDÉO -->
+  <!-- VIDÉO — pleine largeur, aspect-ratio 16/9, aucune bande noire -->
   <div class="media-zone" id="media-zone">
     <div class="media-placeholder" id="media-ph">
-      <span class="mp-icon" id="mp-icon">🎬</span>
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.25"><polygon points="5,3 19,12 5,21"/></svg>
     </div>
     <div class="vid-overlay paused" id="vid-overlay" onclick="toggleVideoPlayback()">
-      <span class="vid-center-icon">▶</span>
-      <div class="vid-btn" id="vid-btn">▶</div>
+      <span class="vid-center-icon">
+        <svg width="52" height="52" viewBox="0 0 24 24" fill="white" opacity="0.9"><polygon points="5,3 19,12 5,21"/></svg>
+      </span>
+      <div class="vid-btn" id="vid-btn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg>
+      </div>
     </div>
   </div>
 
-  <!-- BOTTOM SHEET -->
-  <div class="bottom-sheet">
-    <div class="sheet-scroll">
-      <div class="info-card">
-        <div class="info-row">
-          <p class="info-row-label stim">🔥 Stimulus</p>
-          <p class="info-row-text" id="stimulus-text">…</p>
-        </div>
-        <div class="info-row">
-          <p class="info-row-label inst">💡 Instructions</p>
-          <ul class="instr-list" id="instr-list"></ul>
-        </div>
+  <!-- INFO SCROLL — stimulus + instructions -->
+  <div class="info-scroll">
+    <div class="info-card">
+      <div class="info-row">
+        <p class="info-row-label stim">Stimulus</p>
+        <p class="info-row-text" id="stimulus-text">…</p>
+      </div>
+      <div class="info-row">
+        <p class="info-row-label inst">Instructions</p>
+        <ul class="instr-list" id="instr-list"></ul>
       </div>
     </div>
-    <div class="sheet-controls">
-      <div class="controls-row" id="controls-row"></div>
-    </div>
+  </div>
+
+  <!-- BOUTONS — toujours en bas, à portée des doigts -->
+  <div class="sheet-controls">
+    <div class="controls-row" id="controls-row"></div>
   </div>
 </div>
 
